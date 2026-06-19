@@ -65,6 +65,13 @@ def incompleta(figura):
     else : # fig == "rabisco"
         return len(values) <= 1
 
+def preencher(event,figuras):
+    item = canvas.find_withtag('current')
+    if item in figuras:
+        if item == 'linha':
+            canvas.itemconfig(item,fill="pink")
+
+# def add_borda():
 
 
 
@@ -88,6 +95,16 @@ tipo_figura_var = StringVar(root) # Guarda o tipo de figura selecionado no optio
 option_menu = ttk.OptionMenu(frame, tipo_figura_var,
                              'Linha', 'Linha', 'Rabisco', 'Retangulo','Círculo')
 option_menu.grid(column=1, row=0, sticky=W, **paddings)
+
+# preenchimento
+preenche = Button(frame,text='Preenchimento',command=preencher)
+preenche.grid(column=2,row=0,sticky=W, **paddings)
+
+# bordas
+bordas = Button(frame,text='Bordas')
+bordas.grid(column=3,row=0,sticky=W, **paddings)
+
+# Painel de cores (abaixo dos botoes bordas e preenchimento)
 
 # Área de desenho
 canvas = Canvas(frame, bg='white', width=600, height=600)
