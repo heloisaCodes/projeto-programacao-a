@@ -1,0 +1,1 @@
+#python pra não se perder tadinho
