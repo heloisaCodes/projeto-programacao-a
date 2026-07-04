@@ -1,16 +1,15 @@
+from .figura import figura
 
-from modelo.figura import figura
 class retangulo(figura):
-    def __init__(self,pontos,c_traco,c_preenchimento):
-        super().__init__(c_traco,c_preenchimento)
-        self.pontos=pontos
+    def __init__(self, pontos, c_traco, c_preenchimento):
+        super().__init__(c_traco, c_preenchimento)
+        self.pontos = pontos
 
-    def desenhar(self,canvas,dash=None):
+    def desenhar(self, canvas, dash=None):
         canvas.create_rectangle(self.pontos[0],
-                               self.pontos[1],
-                               self.pontos[2],
-                               self.pontos[3],
-                               outline=self.c_traco,
-                               fill=self.c_preenchimento,
-                               dash=dash)
-        
+                                self.pontos[1],
+                                self.pontos[2],
+                                self.pontos[3],
+                                outline=self.c_traco,
+                                fill=self.c_preenchimento,
+                                dash=dash)

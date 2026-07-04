@@ -1,10 +1,7 @@
-figuras = []
-figura_nova = None
-
 class figura:
-    def __init__ (self,c_traco,c_preenchimento):
-        self.c_traco=c_traco
-        self.c_preenchimento=c_preenchimento
+    def __init__(self, c_traco, c_preenchimento):
+        self.c_traco = c_traco
+        self.c_preenchimento = c_preenchimento
     
-    def desenhar(self,canvas,dash=0):
+    def desenhar(self, canvas, dash=None):
         pass

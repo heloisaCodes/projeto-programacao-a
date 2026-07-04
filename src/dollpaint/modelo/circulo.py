@@ -1,4 +1,4 @@
-from modelo.figura import figura
+from .figura import figura
 
 class circulo(figura):
     def __init__(self, pontos, c_traco, c_preenchimento):
