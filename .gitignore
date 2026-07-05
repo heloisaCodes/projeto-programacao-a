@@ -1,0 +1,15 @@
+# Arquivos compilados do Python (o cache que subiu)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambientes Virtuais (Pastas pesadas de dependências)
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Arquivos de Log e Cache do sistema
+*.log
+.cache/
