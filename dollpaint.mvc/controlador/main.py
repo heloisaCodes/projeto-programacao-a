@@ -1,6 +1,5 @@
 ## Tkinter
 from tkinter import *
-from tkinter import ttk
 from tkinter import colorchooser
 
 # Caminho pra o Python não se perder tadinho 
@@ -11,21 +10,15 @@ if import_path not in sys.path:
     sys.path.append(import_path)
 
 #Imports de Modelo
-from modelo.main import *
-from modelo.figura import figura
+from modelo.figuras import *
 from modelo.figura import *
-
-#Imports de Main
-from principal.main import *
 
 #Import de Visao
 from visao.main import *
-from visao.barradeferramentas import tipo_figura_var
-from visao.barradeferramentas import tracoBoxFrame
-from visao.barradeferramentas import preenchimentoBoxFrame
-from visao.areadesenho import AreaDesenho
-#Import do Controlador
-from controlador.main import *
+from visao.barradeferramentas import *
+from visao.areadesenho import *
+
+
 
 def desenhar_figuras():
     AreaDesenho.delete("all")

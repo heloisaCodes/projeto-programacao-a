@@ -1,7 +1,6 @@
 
 # Tkinter
 from tkinter import *
-from tkinter import ttk
 from tkinter import colorchooser
 
 # Caminho pra o Python não se perder tadinho 
@@ -12,26 +11,18 @@ if import_path not in sys.path:
     sys.path.append(import_path)
 
 #Imports de Modelo
-from modelo.main import *
-from modelo.figura import figura
+from modelo.figuras import *
 from modelo.figura import *
-
-#Imports de Main
-from principal.main import *
 
 #Import de Visao
 from visao.main import *
-from visao.barradeferramentas import tipo_figura_var
-from visao.barradeferramentas import tracoBoxFrame
-from visao.barradeferramentas import preenchimentoBoxFrame
-
-#Import do Controlador
-from controlador.main import *
+from visao.barradeferramentas import *
+from visao.areadesenho import *
 
 class ControladorDesenho:
-    def __init__(self, canvas, tipo_figura_var):
+    def __init__(self, canvas, figura_atual):
         self.canvas = canvas
-        self.tipo_figura_var = tipo_figura_var
+        self.figura_atual = figura_atual
         
         # substituindo as variáveis globais
         self.figuras = []
@@ -39,9 +30,9 @@ class ControladorDesenho:
         self.cor_traço = "#000000"        # Cor padrão: preto
         self.cor_preenchimento = ""     # Cor padrão: transparente/
         
-        # Referências para os frames de feedback visual (opcional)
         self.tracoBoxFrame = None
-        self.preenchimentoBoxFrame = None
+        self.preenchimentoBoxFrame = None  # Referências para os frames de feedback visual (opcional)
+     
 
     def vincular_eventos(self):
         self.canvas.bind("<Button-1>", self.iniciar_figura_nova)
@@ -51,7 +42,7 @@ class ControladorDesenho:
         self.canvas.bind("<Double-Button-1>", self.finalizar_poligono)
 
     def iniciar_figura_nova(self, event): 
-        tipo = self.tipo_figura_var.get().lower()
+        tipo = self.figura_atual.get().lower()
         
         # Adiciona pontos a cada clique se for polígono
         if tipo == "poligono":
@@ -66,7 +57,7 @@ class ControladorDesenho:
             
             self.desenhar_figuras()
             self.desenhar_figura_nova()
-            return
+            
 
         # Lógica normal para as outras figuras (arrastar e soltar)
         if tipo == 'círculo':
@@ -159,7 +150,6 @@ class ControladorDesenho:
             return len(figura.pontos) <= 2
 
     def selecionar_cor_traco(self):
-        from tkinter import colorchooser
         selectedColor = colorchooser.askcolor(title="Cor do Traço")
         if selectedColor[1]: 
             self.cor_traço = selectedColor[1]
@@ -167,7 +157,6 @@ class ControladorDesenho:
                 self.tracoBoxFrame.config(bg=self.cor_traço)
 
     def selecionar_cor_preenchimento(self):
-        from tkinter import colorchooser
         selectedColor = colorchooser.askcolor(title="Cor de Preenchimento")
         if selectedColor[1]: 
             self.cor_preenchimento = selectedColor[1]
