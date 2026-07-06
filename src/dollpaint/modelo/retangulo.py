@@ -13,3 +13,5 @@ class retangulo(figura):
                                 outline=self.c_traco,
                                 fill=self.c_preenchimento,
                                 dash=dash)
+    def imcompleta(self):
+             return (figura.pontos[0], figura.pontos[1]) == (figura.pontos[2], figura.pontos[3])

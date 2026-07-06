@@ -5,3 +5,5 @@ class figura:
     
     def desenhar(self, canvas, dash=None):
         pass
+    def imcompleta(self):
+        pass
