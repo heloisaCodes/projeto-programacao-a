@@ -1,1 +1,0 @@
-#colocar as funçoes de desenhar

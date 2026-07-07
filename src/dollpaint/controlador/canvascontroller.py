@@ -21,25 +21,27 @@ from visao.areadesenho import *
 
 
 
-#####  classe do controlador onde vai guardar as informaçoes do das ferramentas da figura especifica
+##### é o nosso contexto, as ferramentas contruidas serão feitas para mudar o estado atual
+# configuraçoes da tela de inicializaçao
 
 class ControladorDesenho:
     def __init__(self, canvas, figura_atual):
         self.canvas = canvas
-        self.figura_atual = figura_atual  # gaveta temporaria 
+        self.figura_atual = None  # vai comecar com nome pq nao vai iniclaizar nehuma figura # gaveta temporaria 
         self.figuras = []                 # figuras salvas
         
-        # Cores padrões 
+        # gaveta das cores
         self.cor_traço = "black"          
         self.cor_preenchimento = ""       
         
         # Estado inicial padrão 
-        self.estado_atual = None 
+        self.estado_atual = modorabisco() 
     
     def mudar_estado(self, novo_estado):
         # Função para alternar o estado/ferramenta
         self.estado_atual = novo_estado
 
+    # 
     def vincular_eventos(self):
         self.canvas.bind("<Button-1>", self.iniciar_figura_nova)
         self.canvas.bind("<B1-Motion>", self.atualizar_figura_nova) 
@@ -78,7 +80,7 @@ class ControladorDesenho:
             fig.desenhar(self.canvas)
 
     def desenhar_figura_nova(self):
-        # Desenha a figura da gaveta com linha tracejada
+        # Desenha a figura da gaveta com linha tracejada        
         if self.figura_atual is not None:
             self.figura_atual.desenhar(self.canvas, dash=(4, 2))
 

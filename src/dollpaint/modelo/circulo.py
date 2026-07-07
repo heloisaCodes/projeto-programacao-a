@@ -19,5 +19,3 @@ class circulo(figura):
             fill=self.c_preenchimento,
             dash=dash
         )
-    def imcompleta(self):
-       return figura.pontos[2] < 1.0

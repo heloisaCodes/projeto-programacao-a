@@ -9,5 +9,3 @@ class rabisco(figura):
         canvas.create_line(self.pontos,
                            fill=self.c_traco,
                            dash=dash)
-    def imcompleta(self):
-       return len(figura.pontos) <= 2

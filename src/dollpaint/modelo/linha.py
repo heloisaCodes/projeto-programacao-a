@@ -13,5 +13,3 @@ class linha(figura):
                            dash=dash,
                            fill=self.c_traco)
     
-    def imcompleta(self):
-             return (figura.pontos[0], figura.pontos[1]) == (figura.pontos[2], figura.pontos[3])
