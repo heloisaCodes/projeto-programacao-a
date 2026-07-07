@@ -1,7 +1,6 @@
 # Tkinter
 from tkinter import *
 from tkinter import colorchooser
-
 # Caminho pra o Python não se perder tadinho 
 import sys
 import os
@@ -17,8 +16,9 @@ from modelo.figura import *
 from visao.main import *
 from visao.barradeferramentas import *
 from visao.areadesenho import *
+# import das ferramentas
 
-
+from .ferramentas import modocirculo,modolinha,modopoligono,modorabisco,modoretangulo,modooval
 
 
 ##### é o nosso contexto, as ferramentas contruidas serão feitas para mudar o estado atual
@@ -27,7 +27,7 @@ from visao.areadesenho import *
 class ControladorDesenho:
     def __init__(self, canvas, figura_atual):
         self.canvas = canvas
-        self.figura_atual = None  # vai comecar com nome pq nao vai iniclaizar nehuma figura # gaveta temporaria 
+        self.figura_atual = None  # vai comecar com none pq nao vai iniclaizar nehuma figura # gaveta temporaria 
         self.figuras = []                 # figuras salvas
         
         # gaveta das cores
@@ -35,13 +35,14 @@ class ControladorDesenho:
         self.cor_preenchimento = ""       
         
         # Estado inicial padrão 
+        # o parentese porque estou instaciando
         self.estado_atual = modorabisco() 
     
     def mudar_estado(self, novo_estado):
         # Função para alternar o estado/ferramenta
         self.estado_atual = novo_estado
 
-    # 
+    # tudo ok nessa parte
     def vincular_eventos(self):
         self.canvas.bind("<Button-1>", self.iniciar_figura_nova)
         self.canvas.bind("<B1-Motion>", self.atualizar_figura_nova) 

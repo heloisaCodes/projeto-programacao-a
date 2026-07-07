@@ -1,10 +1,10 @@
 import tkinter  as tk
 
 # Area desenho
+# responsavel por criar o quadro de desenho
 
 class AreaDesenho(tk.Frame):
     def __init__(self,master):
-        #faltou um parenteses...
         super().__init__(master)
 
         self.canvas = tk.Canvas(self, bg='white')
