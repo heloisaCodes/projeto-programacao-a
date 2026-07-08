@@ -32,7 +32,7 @@ class BarraFerramentas(tk.Frame):
         # nosso sensor, ele vai capturar e mandar pro controler
 
         ### preciso mudar isso ainda o segundo argumento é o nome dafunçao que  vai ter no controlador responsavel por mudar 
-        self.escolha_menu.trace_add("write", self.escolha_menu.mudar_estado)
+        self.escolha_menu.trace_add("write",self.controlador.ao_mudar_selecao)
 
         # menu
         self.option_menu = ttk.OptionMenu(self, self.escolha_menu, 'linha', 'linha', 'rabisco', 'retângulo', 'oval', 'círculo', 'poligono')

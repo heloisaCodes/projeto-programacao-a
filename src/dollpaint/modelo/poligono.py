@@ -6,5 +6,7 @@ class poligono(figura):
         self.pontos = pontos
 
     def desenhar(self, canvas, **kwargs):
+        if len(self.pontos) < 6:
+         return
         canvas.create_polygon(self.pontos, outline=self.c_traco, fill=self.c_preenchimento, **kwargs)
 
