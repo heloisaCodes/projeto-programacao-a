@@ -1,28 +1,23 @@
 # Tkinter
 from tkinter import *
 from tkinter import colorchooser
-# Caminho pra o Python não se perder tadinho 
-import sys
-import os
-import_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if import_path not in sys.path:
-    sys.path.append(import_path)
 
 #Imports de Modelo
 from modelo.figuras import *
-from modelo.figura import *
+
 
 #Import de Visao
 from visao.areadesenho import *
 # import das ferramentas
 
-from .ferramentas import modocirculo,modolinha,modopoligono,modorabisco,modoretangulo,modooval
+# aqui que vamos puxar  as ferramentas para trabalhar
+from .ferramentas import *
 
 
 ##### é o nosso contexto, as ferramentas contruidas serão feitas para mudar o estado atual
 # configuraçoes da tela de inicializaçao
 
-class ControladorDesenho:
+class controladordesenho:
     def __init__(self, canvas, escolha_atual):
         self.canvas = canvas
         self.figura_atual = None  # vai comecar com none pq nao vai inicializar nehuma figura # gaveta temporaria 
@@ -35,7 +30,8 @@ class ControladorDesenho:
         
         # Estado inicial padrão 
         # o paranteses pq ta devolvendo um objeto vivo que sera possovel aplicar os metodos
-        self.estado_atual = modorabisco() 
+        self.estado_atual = modolinha() 
+        #'linha', 'linha', 'rabisco', 'retângulo', 'oval', 'círculo', 'poligono'
     # parte da logistica da mudança
 # o args serve para idicar que vai chegar parametros mas vc nao sabe quantos
     def ao_mudar_selecao(self,*args):
@@ -43,10 +39,10 @@ class ControladorDesenho:
         if texto == "rabisco":
             novo_estado=modorabisco()
         elif texto == "oval":
-            novo_estado=modooval
+            novo_estado=modooval()
         elif texto == "poligono":
             novo_estado=modopoligono()
-        elif texto == linha:
+        elif texto == "linha":
             novo_estado=modolinha()
         elif texto == "círculo":
             novo_estado=modocirculo()
@@ -58,8 +54,13 @@ class ControladorDesenho:
         self.mudar_estado(novo_estado)
 
     def mudar_estado(self, novo_estado):
+        # pra esvaziar a gaveta
+        self.estado_atual=None
         # Função para alternar o estado/ferramenta
         self.estado_atual = novo_estado
+        self.desenhar_figuras()
+        self.desenhar_figura_nova()
+        print(f"modo atual {self.estado_atual}")
 
     # tudo ok nessa parte
     def vincular_eventos(self):
@@ -70,28 +71,28 @@ class ControladorDesenho:
         self.canvas.bind("<Double-Button-1>", self.finalizar_poligono)
 
     def iniciar_figura_nova(self, event): 
-        if self.estado_atual is not None:
             self.estado_atual.iniciar_figura_nova(event, self) 
             self.desenhar_figuras()
             self.desenhar_figura_nova()
-
+    
     def atualizar_figura_nova(self, event):  
-        if self.estado_atual is not None:
+        if self.figura_atual is not None:
             self.estado_atual.atualizar_figura_nova(event, self)
             self.desenhar_figuras()
             self.desenhar_figura_nova()
-
+        else:
+            return
     def incluir_figura_nova(self, event): 
-        if self.estado_atual is not None:
             self.estado_atual.incluir_figura_nova(event, self)
             self.desenhar_figuras()
             self.desenhar_figura_nova()
+        
     
     def finalizar_poligono(self, event):
-        if self.estado_atual is not None:
             self.estado_atual.finalizar_poligono(event, self)
             self.desenhar_figuras()
             self.desenhar_figura_nova()
+
 
     def desenhar_figuras(self):
         # Limpa o canvas e redesenha as figuras salvas

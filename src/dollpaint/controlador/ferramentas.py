@@ -10,7 +10,9 @@ from modelo.oval import oval
 from modelo.poligono import poligono
 from modelo.retangulo import retangulo
 from modelo.circulo import circulo
-from canvascontroller import ControladorDesenho
+
+# nao precisa mais mais pq o controladordesennho esta sendo passado como paramentro
+#from .controladordesenho import controladordesenho
 # aqui vamos colocar todas as funçoes que tem is e elif e colocar um pass
 # obs; como é uma classe abstrata nao precisa de init
 
@@ -42,16 +44,18 @@ class modorabisco(ferramenta):
         # pego os dados fornecidos pelo event e aplico no moldenic
         controladordesenho.figura_atual=rabisco( [event.x, event.y], cor_traco, cor_preenchimento)
 
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+        controladordesenho.desenhar_figuras()
+        controladordesenho.desenhar_figura_nova()
 
     def atualizar_figura_nova(self, event,controladordesenho):
         # verificando se a gaveta nao é vazia
         if controladordesenho.figura_atual is not None:
-            controladordesenho.figura_atual.extend([event.x,event.y])
+            controladordesenho.figura_atual.pontos.extend([event.x, event.y])
 
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+            controladordesenho.desenhar_figuras()
+            controladordesenho.desenhar_figura_nova()
+        else:
+         return
 
     def incluir_figura_nova(self, event,controladordesenho):
         # verifcando se tem algo
@@ -60,8 +64,8 @@ class modorabisco(ferramenta):
             controladordesenho.figuras.append(controladordesenho.figura_atual)
             # limpar para o proximo desenho
             controladordesenho.figura_atual=None
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+        controladordesenho.desenhar_figuras()
+        controladordesenho.desenhar_figura_nova()
     # nao se aplica
     def finalizar_poligono(self, event):
         pass
@@ -71,12 +75,12 @@ class modocirculo(ferramenta):
     def iniciar_figura_nova(self, event, controladordesenho):
         # busco na gaveta de novo
         cor_traco =controladordesenho.cor_traço
-        cor_preenchimento = controladordesenho.cor_preechimento
+        cor_preenchimento = controladordesenho.cor_preenchimento
 
                 # pego os dados fornecidos pelo event e aplico no molde
         controladordesenho.figura_atual=circulo([event.x, event.y, 0], cor_traco, cor_preenchimento)
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+        controladordesenho.desenhar_figuras()
+        controladordesenho.desenhar_figura_nova()
 
     def atualizar_figura_nova(self, event, controladordesenho):
         # verificando se a gaveta nao é vazia
@@ -88,8 +92,10 @@ class modocirculo(ferramenta):
             raio = ((x_centro - event.x)**2 + (y_centro - event.y)**2) ** 0.5
             # índice [2] com o novo raio calculado
             controladordesenho.figura_atual.pontos[2] = raio
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+            controladordesenho.desenhar_figuras()
+            controladordesenho.desenhar_figura_nova()
+        else:
+            return
     
     def incluir_figura_nova(self, event, controladordesenho):
         # verifcando se tem algo
@@ -98,8 +104,8 @@ class modocirculo(ferramenta):
             controladordesenho.figuras.append(controladordesenho.figura_atual)
             # limpar para o proximo desenho
             controladordesenho.figura_atual=None
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+            controladordesenho.desenhar_figuras()
+            controladordesenho.desenhar_figura_nova()
     def finalizar_poligono(self, event, controladordesenho):
         pass
 class modoretangulo(ferramenta):
@@ -108,17 +114,20 @@ class modoretangulo(ferramenta):
 
           # busco na gaveta de novo
         cor_traco =controladordesenho.cor_traço
-        cor_preenchimento = controladordesenho.cor_preechimento
+        cor_preenchimento = controladordesenho.cor_preenchimento
                  # pego os dados fornecidos pelo event e aplico no molde
         controladordesenho.figura_atual=retangulo([event.x, event.y, event.x, event.y], cor_traco, cor_preenchimento)
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+        controladordesenho.desenhar_figuras()
+        controladordesenho.desenhar_figura_nova()
     def atualizar_figura_nova(self, event, controladordesenho):
          if controladordesenho.figura_atual is not None:
-             controladordesenho.figura_nova.pontos[2] = event.x
+             controladordesenho.figura_atual.pontos[2] = event.x
              controladordesenho.figura_atual.pontos[3] = event.y
-         ControladorDesenho.desenhar_figuras()
-         ControladorDesenho.desenhar_figura_nova()
+             controladordesenho.desenhar_figuras()
+             controladordesenho.desenhar_figura_nova()
+         else:
+             return
+    
     
     def incluir_figura_nova(self, event, controladordesenho):
         # verifcando se tem algo
@@ -127,24 +136,27 @@ class modoretangulo(ferramenta):
             controladordesenho.figuras.append(controladordesenho.figura_atual)
             # limpar para o proximo desenho
             controladordesenho.figura_atual=None
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
-
+        controladordesenho.desenhar_figuras()
+        controladordesenho.desenhar_figura_nova()
+    def finalizar_poligono(self, event, controladordesenho):
+        pass
 class modolinha (ferramenta):
     def iniciar_figura_nova(self, event, controladordesenho):
        cor_traco = controladordesenho.cor_traço
-       cor_preenchimento = controladordesenho.cor_preechimento
+       cor_preenchimento = controladordesenho.cor_preenchimento
      #guardado dentro da caixinha os dados obtidos com o molde
        controladordesenho.figura_atual= linha([event.x, event.y, event.x, event.y], cor_traco, cor_preenchimento)
-       ControladorDesenho.desenhar_figuras()
-       ControladorDesenho.desenhar_figura_nova()
+       controladordesenho.desenhar_figuras()
+       controladordesenho.desenhar_figura_nova()
          
     def atualizar_figura_nova(self, event, controladordesenho):
-      
+      if controladordesenho.figura_atual is not None:
         controladordesenho.figura_atual.pontos[2] = event.x
         controladordesenho.figura_atual.pontos[3] = event.y
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+        controladordesenho.desenhar_figuras()
+        controladordesenho.desenhar_figura_nova()
+      else:
+          return
 
     def incluir_figura_nova(self, event, controladordesenho):
         # verifcando se tem algo
@@ -153,8 +165,8 @@ class modolinha (ferramenta):
             controladordesenho.figuras.append(controladordesenho.figura_atual)
             # limpar para o proximo desenho
             controladordesenho.figura_atual=None
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+        controladordesenho.desenhar_figuras()
+        controladordesenho.desenhar_figura_nova()
     
     def finalizar_poligono(self, event, controladordesenho):
         pass
@@ -175,8 +187,8 @@ class modopoligono(ferramenta):
         # SE ja tinha pontos na gaveta ou seja se o poligono ja estava em construçao
         # Adicionamos mais um par de X e Y na lista .pontos dele
         controladordesenho.figura_atual.pontos.extend([event.x, event.y])
-       ControladorDesenho.desenhar_figuras()
-       ControladorDesenho.desenhar_figura_nova()
+       controladordesenho.desenhar_figuras()
+       controladordesenho.desenhar_figura_nova()
    
     def atualizar_figura_nova(self, event, controladordesenho):
         # ENQUANTO O MOUSE MEXE (Efeito Elástico):
@@ -185,8 +197,10 @@ class modopoligono(ferramenta):
             # para que a linha  siga a ponta do mouse!
             controladordesenho.figura_atual.pontos[-2] = event.x
             controladordesenho.figura_atual.pontos[-1] = event.y
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+            controladordesenho.desenhar_figuras()
+            controladordesenho.desenhar_figura_nova()
+        else:
+            return
 
     def incluir_figura_nova(self, event, controladordesenho):
         pass
@@ -204,8 +218,8 @@ class modopoligono(ferramenta):
             
             # Limpa o armário para começar um polígono novo do zero depois
             controladordesenho.figura_atual = None
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+        controladordesenho.desenhar_figuras()
+        controladordesenho.desenhar_figura_nova()
 
 class modooval(ferramenta):
 
@@ -214,16 +228,18 @@ class modooval(ferramenta):
        controladordesenho.figura_atual=oval([event.x, event.y, event.x, event.y],
                                              controladordesenho.cor_traço,
                                              controladordesenho.cor_preenchimento)
-       ControladorDesenho.desenhar_figuras()
-       ControladorDesenho.desenhar_figura_nova()
+       controladordesenho.desenhar_figuras()
+       controladordesenho.desenhar_figura_nova()
 
     def atualizar_figura_nova(self, event, controladordesenho):
         
         if controladordesenho.figura_atual is not None:
          controladordesenho.figura_atual.pontos[2] = event.x
          controladordesenho.figura_atual.pontos[3] = event.y
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+         controladordesenho.desenhar_figuras()
+         controladordesenho.desenhar_figura_nova()
+        else:
+            return
     def incluir_figura_nova(self, event, controladordesenho):
         # verifcando se tem algo
         if controladordesenho.figura_atual is not None:
@@ -231,7 +247,7 @@ class modooval(ferramenta):
             controladordesenho.figuras.append(controladordesenho.figura_atual)
             # limpar para o proximo desenho
             controladordesenho.figura_atual=None
-        ControladorDesenho.desenhar_figuras()
-        ControladorDesenho.desenhar_figura_nova()
+        controladordesenho.desenhar_figuras()
+        controladordesenho.desenhar_figura_nova()
     def finalizar_poligono(self, event, controladordesenho):
         pass

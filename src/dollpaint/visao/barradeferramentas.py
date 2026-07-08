@@ -4,14 +4,7 @@
 import tkinter  as tk
 from tkinter import ttk
 
-# caminho pro python
-import sys
-import os
-import_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if import_path not in sys.path:
-    sys.path.append(import_path)
-
-from controlador.canvascontroller import *
+from controlador.controladordesenho import *
 from visao.areadesenho import *
 
 class BarraFerramentas(tk.Frame):
@@ -26,16 +19,10 @@ class BarraFerramentas(tk.Frame):
         # gaveta do menu
         self.escolha_menu = tk.StringVar(value="linha")# ta linha porque a gente vai inciar com isso
 
-        #controlador e canvas
-        self.area_desenho = AreaDesenho(self)
-        self.controlador = ControladorDesenho(canvas=self.area_desenho.canvas, escolha_atual=self.escolha_menu)
-        # nosso sensor, ele vai capturar e mandar pro controler
-
-        ### preciso mudar isso ainda o segundo argumento é o nome dafunçao que  vai ter no controlador responsavel por mudar 
-        self.escolha_menu.trace_add("write",self.controlador.ao_mudar_selecao)
 
         # menu
-        self.option_menu = ttk.OptionMenu(self, self.escolha_menu, 'linha', 'linha', 'rabisco', 'retângulo', 'oval', 'círculo', 'poligono')
+        self.option_menu = ttk.OptionMenu (self, self.escolha_menu, 'linha', 'linha', 'rabisco', 'retângulo', 'oval', 'círculo', 'poligono',
+                                          command=lambda opcao: self.master.controlador.ao_mudar_selecao(opcao))
         self.option_menu.grid(column=1, row=0, sticky=tk.W, **paddings)
 
         # cor do traço

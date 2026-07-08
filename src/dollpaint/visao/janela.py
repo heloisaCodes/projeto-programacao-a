@@ -2,17 +2,10 @@
 from tkinter import *
 import tkinter as tk
 
-# Caminho pra o Python não se perder tadinho 
-import sys
-import os
-import_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-if import_path not in sys.path:
-    sys.path.append(import_path)
-
 #Import de Visao
-from visao.barradeferramentas import BarraFerramentas
-from visao.areadesenho import *
-from controlador.canvascontroller import *
+from .barradeferramentas import BarraFerramentas
+from .areadesenho import *
+from controlador.controladordesenho import *
 
 class JanelaPrincipal(tk.Tk):
     def __init__(self):
@@ -34,7 +27,7 @@ class JanelaPrincipal(tk.Tk):
         #CONTROLADOR
         
         # instancia o controlador passando o Canvas e a Variável de controle de tipo de figura
-        self.controlador = ControladorDesenho(canvas=self.area_desenho.canvas, escolha_atual=self.barra.escolha_menu)
+        self.controlador = controladordesenho(canvas=self.area_desenho.canvas, escolha_atual=self.barra.escolha_menu)
         
         # referências dos pequenos frames coloridos para o controlador atualizar
         self.controlador.tracoBoxFrame = self.barra.tracoBoxFrame
