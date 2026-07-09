@@ -47,16 +47,15 @@ class JanelaPrincipal(tk.Tk):
            # para abrir a janela para a escolha de salvar
             caminho = filedialog.asksaveasfilename(
                 defaultextension=".dol",
-                filetypes=[("Arquivos DollPaint", "*.dol"), ("Todos os arquivos", "*.*")]
-            )
+                filetypes=[("Arquivos DollPaint", "*.dol"), ("Todos os arquivos", "*.*")])
             if caminho:
                 self.controlador.salvar_arquivo_desenho(caminho)
 
     def solicitar_abrir_desenho(self):
             #para selecionar a pasta onde ta o desenho
             caminho = filedialog.askopenfilename(
-                filetypes=[("Arquivos DollPaint", "*.dol"), ("Todos os arquivos", "*.*")]
-            )
+                filetypes=[("Arquivos DollPaint", "*.dol"), ("Todos os arquivos", "*.*")])
+        # se tem algo ele ativa
             if caminho:
                 self.controlador.abrir_arquivo_desenho(caminho)
 
