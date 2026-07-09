@@ -17,7 +17,7 @@ class BarraFerramentas(tk.Frame):
         self.label.grid(column=0, row=0, sticky=tk.W, **paddings)
 
         # gaveta do menu
-        self.escolha_menu = tk.StringVar(value="linha")# ta linha porque a gente vai inciar com isso
+        self.escolha_menu = tk.StringVar(value="rabisco")# ta rabsico porque a gente vai inciar com isso
 
 
         # menu
