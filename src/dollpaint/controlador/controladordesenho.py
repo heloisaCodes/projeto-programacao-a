@@ -4,14 +4,16 @@ from tkinter import colorchooser
 
 #Imports de Modelo
 from modelo.figuras import *
-
+from modelo.borracha import *
 
 #Import de Visao
 from visao.areadesenho import *
 # import das ferramentas
 
 # aqui que vamos puxar  as ferramentas para trabalhar
-from .ferramentas import *
+from controlador.caixa_de_ferramentas.caixaprincipal import*
+# para salvar e abrir
+import pickle
 
 
 ##### é o nosso contexto, as ferramentas contruidas serão feitas para mudar o estado atual
@@ -28,39 +30,30 @@ class controladordesenho:
         self.cor_traço = "black"          
         self.cor_preenchimento = ""       
         
-        # Estado inicial padrão 
-        # o paranteses pq ta devolvendo um objeto vivo que sera possovel aplicar os metodos
-        self.estado_atual = modolinha() 
-        #'linha', 'linha', 'rabisco', 'retângulo', 'oval', 'círculo', 'poligono'
+        # estado inicial padrão 
+        # o paranteses pq ta devolvendo um objeto vivo que sera posso aplicar os metodos
+        self.estado_atual = modorabisco() 
+      
     # parte da logistica da mudança
-# o args serve para idicar que vai chegar parametros mas vc nao sabe quantos
-    def ao_mudar_selecao(self,*args):
-        texto=self.escolha_menu.get()
-        if texto == "rabisco":
-            novo_estado=modorabisco()
-        elif texto == "oval":
-            novo_estado=modooval()
-        elif texto == "poligono":
-            novo_estado=modopoligono()
-        elif texto == "linha":
-            novo_estado=modolinha()
-        elif texto == "círculo":
-            novo_estado=modocirculo()
-        elif texto == "retângulo":
-            novo_estado=modoretangulo()
-        else:
-          novo_estado = modorabisco()
-        # to acessando a classe e aplicando o metodo com o novo resultado
-        self.mudar_estado(novo_estado)
+    # pegando o que o que o menu enviou
+    def ao_mudar_selecao(self,opcao):
+        texto = self.escolha_menu.get()
+    
+        tradutor_ferramentas = {
+            "rabisco": modorabisco,
+            "oval": modooval,
+            "poligono": modopoligono,
+            "linha": modolinha,
+            "círculo": modocirculo,
+            "retângulo": modoretangulo,
+            "borracha": Modoborracha
+        }
 
-    def mudar_estado(self, novo_estado):
-        # pra esvaziar a gaveta
-        self.estado_atual=None
-        # Função para alternar o estado/ferramenta
-        self.estado_atual = novo_estado
+        self.estado_atual = None  # Esvazia a gaveta
+        self.estado_atual = tradutor_ferramentas[texto]()
+            
         self.desenhar_figuras()
         self.desenhar_figura_nova()
-        print(f"modo atual {self.estado_atual}")
 
     # tudo ok nessa parte
     def vincular_eventos(self):
@@ -121,3 +114,29 @@ class controladordesenho:
             self.cor_preenchimento = selectedColor[1]
             if hasattr(self, 'preenchimentoBoxFrame') and self.preenchimentoBoxFrame:
                 self.preenchimentoBoxFrame.config(bg=self.cor_preenchimento)
+
+    def salvar_arquivo_desenho(self, caminho):
+        # Recebe o caminho da visão e salva a lista de figuras usando pickle
+        try:
+            with open(caminho, 'wb') as arquivo:
+                # O pickle pega a lista inteira e transforma em bytes salvando no HD
+                pickle.dump(self.figuras, arquivo)
+            print("Desenho salvo com sucesso!")
+            # importante para a gente ver qual é o erro
+        except Exception as e:
+            print(f"Erro ao salvar o arquivo: {e}")
+
+    def abrir_arquivo_desenho(self, caminho):
+        # recebe de visao ,carrega as figuras e atualiza a tela
+        try:
+            with open(caminho, 'rb') as arquivo:
+                # O pickle lê os bytes do HD e reconstrói os objetos originais
+                self.figuras = pickle.load(arquivo)
+            
+            # Limpa o Canvas para não misturar com o que já estava na tela
+            self.canvas.delete("all")
+            # controlador redesenhar tudo o que ele acabou de carregar do arquivo
+            self.desenhar_figuras()
+            print("Desenho carregado com sucesso!")
+        except Exception as e:
+            print(f"Erro ao abrir o arquivo: {e}")

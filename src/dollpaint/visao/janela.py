@@ -1,7 +1,7 @@
 # Tkinter
 from tkinter import *
 import tkinter as tk
-
+import tkinter.filedialog as filedialog
 #Import de Visao
 from .barradeferramentas import BarraFerramentas
 from .areadesenho import *
@@ -12,7 +12,7 @@ class JanelaPrincipal(tk.Tk):
         super().__init__()
         
         # Tamanho da janela
-        self.geometry("1200x800")
+        self.geometry("1600x1800")
         self.title("DollPaint")
         
         # Criando a barra de ferramentas e colocando no lugar
@@ -26,10 +26,10 @@ class JanelaPrincipal(tk.Tk):
         
         #CONTROLADOR
         
-        # instancia o controlador passando o Canvas e a Variável de controle de tipo de figura
+        # instancia o controlador passando o Canvas e a gavarya com a escolha
         self.controlador = controladordesenho(canvas=self.area_desenho.canvas, escolha_atual=self.barra.escolha_menu)
         
-        # referências dos pequenos frames coloridos para o controlador atualizar
+        # gaveta das cores
         self.controlador.tracoBoxFrame = self.barra.tracoBoxFrame
         self.controlador.preenchimentoBoxFrame = self.barra.preenchimentoBoxFrame
         
@@ -39,4 +39,28 @@ class JanelaPrincipal(tk.Tk):
         
         # ativa os binds
         self.controlador.vincular_eventos()
-        
+        # gaveta dos botoes salvar e abrir
+        self.conectar_botoes_arquivo()
+        # interface de salvar e abrir
+
+    def solicitar_salvar_desenho(self):
+           # para abrir a janela para a escolha de salvar
+            caminho = filedialog.asksaveasfilename(
+                defaultextension=".dol",
+                filetypes=[("Arquivos DollPaint", "*.dol"), ("Todos os arquivos", "*.*")]
+            )
+            if caminho:
+                self.controlador.salvar_arquivo_desenho(caminho)
+
+    def solicitar_abrir_desenho(self):
+            #para selecionar a pasta onde ta o desenho
+            caminho = filedialog.askopenfilename(
+                filetypes=[("Arquivos DollPaint", "*.dol"), ("Todos os arquivos", "*.*")]
+            )
+            if caminho:
+                self.controlador.abrir_arquivo_desenho(caminho)
+
+    def conectar_botoes_arquivo(self):
+            # para conectar as funçoes com os botoes
+            self.barra.btn_salvar.config(command=self.solicitar_salvar_desenho)
+            self.barra.btn_abrir.config(command=self.solicitar_abrir_desenho)

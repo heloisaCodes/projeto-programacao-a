@@ -21,20 +21,32 @@ class BarraFerramentas(tk.Frame):
 
 
         # menu
-        self.option_menu = ttk.OptionMenu (self, self.escolha_menu, 'linha', 'linha', 'rabisco', 'retângulo', 'oval', 'círculo', 'poligono',
+        self.option_menu = ttk.OptionMenu (self, self.escolha_menu, 'rabisco', 'linha', 'rabisco', 'retângulo', 'oval', 'círculo', 'poligono',"borracha",
                                           command=lambda opcao: self.master.controlador.ao_mudar_selecao(opcao))
+                    # o commad recebe opçao que foi passado pela escolha e aplicada no metodochamdo la no controlador
         self.option_menu.grid(column=1, row=0, sticky=tk.W, **paddings)
+       
 
-        # cor do traço
+        # # cor do traço 
         self.tracoButton = tk.Button(self, text="Cor do Traço", width=12)
         self.tracoButton.grid(column=2, row=0, sticky=tk.W, **paddings)
         self.tracoBoxFrame = tk.Frame(self, height=25, width=25, relief=tk.SUNKEN, borderwidth=3, bg="#000000")
         self.tracoBoxFrame.grid(column=3, row=0, sticky=tk.W, **paddings)
 
-        # cor de preenchimento
+        # # cor de preenchimento 
         self.preenchimentoButton = tk.Button(self, text="Preenchimento", width=12)
         self.preenchimentoButton.grid(column=4, row=0, sticky=tk.W, **paddings)
-        self.preenchimentoBoxFrame = tk.Frame(self, height=25, width=25, relief=tk.SUNKEN, borderwidth=3, bg="white") 
+        self.preenchimentoBoxFrame = tk.Frame(self, height=25, width=25, relief=tk.SUNKEN, borderwidth=3, bg="white")
         self.preenchimentoBoxFrame.grid(column=5, row=0, sticky=tk.W, **paddings)
-    
+
+        
+        # tudo o que for colocado debaixo dessa linha vai ser empurrado para a direita,lembrar para os nossos proximos botoes
+        self.columnconfigure(6, weight=1)
+        # # botao de salvar coluna 7 direita
+        self.btn_salvar = ttk.Button(self, text="Salvar")
+        self.btn_salvar.grid(column=7, row=0, sticky=tk.E, **paddings)
+
+        # # botao abrir coluna 8 direita
+        self.btn_abrir = ttk.Button(self, text="Abrir")
+        self.btn_abrir.grid(column=8, row=0, sticky=tk.E, **paddings)
         

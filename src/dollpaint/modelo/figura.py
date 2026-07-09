@@ -1,3 +1,5 @@
+
+#molde
 class figura:
     def __init__(self, c_traco, c_preenchimento):
         self.c_traco = c_traco
