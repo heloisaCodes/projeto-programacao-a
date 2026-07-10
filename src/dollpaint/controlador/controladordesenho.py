@@ -33,6 +33,14 @@ class controladordesenho:
         # estado inicial padrão 
         # o paranteses pq ta devolvendo um objeto vivo que sera posso aplicar os metodos
         self.estado_atual = modorabisco() 
+        
+        # guardar o id da figura que esta selecionada
+        # obs: tkinter cria um id auromatico para todas as figuras salvas
+        self.figura_selecionada = None #o canvas nao tem figura ainda
+        
+    
+
+    
       
     # parte da logistica da mudança
     # pegando o que o que o menu enviou
@@ -55,27 +63,27 @@ class controladordesenho:
         self.desenhar_figuras()
         self.desenhar_figura_nova()
 
-    # tudo ok nessa parte
+    #gerenciamento de cliques, deixando o nome mais genérico
     def vincular_eventos(self):
-        self.canvas.bind("<Button-1>", self.iniciar_figura_nova)
-        self.canvas.bind("<B1-Motion>", self.atualizar_figura_nova) 
-        self.canvas.bind("<Motion>", self.atualizar_figura_nova)
-        self.canvas.bind("<ButtonRelease-1>", self.incluir_figura_nova)
+        self.canvas.bind("<Button-1>", self.ao_clicar) #iniciar
+        self.canvas.bind("<B1-Motion>", self.ao_mover) #atualizar
+        self.canvas.bind("<Motion>", self.ao_mover)
+        self.canvas.bind("<ButtonRelease-1>", self.ao_soltar) #incluir
         self.canvas.bind("<Double-Button-1>", self.finalizar_poligono)
 
-    def iniciar_figura_nova(self, event): 
+    def ao_clicar(self, event): 
             self.estado_atual.iniciar_figura_nova(event, self) 
             self.desenhar_figuras()
             self.desenhar_figura_nova()
     
-    def atualizar_figura_nova(self, event):  
+    def ao_mover(self, event):  
         if self.figura_atual is not None:
             self.estado_atual.atualizar_figura_nova(event, self)
             self.desenhar_figuras()
             self.desenhar_figura_nova()
         else:
             return
-    def incluir_figura_nova(self, event): 
+    def ao_soltar(self, event): 
             self.estado_atual.incluir_figura_nova(event, self)
             self.desenhar_figuras()
             self.desenhar_figura_nova()
