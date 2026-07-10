@@ -3,7 +3,7 @@ from .ferramentas import ferramenta
 
 class modorabisco(ferramenta):
     # o controlador desenho esta sendo passado como um armario
-    def iniciar_figura_nova(self, event,controladordesenho):
+    def ao_clicar(self, event,controladordesenho):
 
         # buscar na gaveta qual é a cor atual
         cor_traco =controladordesenho.cor_traço
@@ -14,7 +14,7 @@ class modorabisco(ferramenta):
         controladordesenho.desenhar_figuras()
         controladordesenho.desenhar_figura_nova()
 
-    def atualizar_figura_nova(self, event,controladordesenho):
+    def ao_mover(self, event,controladordesenho):
         # verificando se a gaveta nao é vazia
         if controladordesenho.figura_atual is not None:
             controladordesenho.figura_atual.pontos.extend([event.x, event.y])
@@ -24,7 +24,7 @@ class modorabisco(ferramenta):
         else:
          return
 
-    def incluir_figura_nova(self, event,controladordesenho):
+    def ao_soltar(self, event,controladordesenho):
         # verifcando se tem algo
         if controladordesenho.figura_atual is not None:
             # adicionando na gaveta de figuras

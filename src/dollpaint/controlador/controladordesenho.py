@@ -28,7 +28,7 @@ class controladordesenho:
         self.escolha_menu=escolha_atual
         # gaveta das cores
         self.cor_traço = "black"          
-        self.cor_preenchimento = ""       
+        self.cor_preenchimento = ""  
         
         # estado inicial padrão 
         # o paranteses pq ta devolvendo um objeto vivo que sera posso aplicar os metodos
@@ -36,7 +36,7 @@ class controladordesenho:
         
         # guardar o id da figura que esta selecionada
         # obs: tkinter cria um id auromatico para todas as figuras salvas
-        self.figura_selecionada = None #o canvas nao tem figura ainda
+        self.figura_selecionada = None # nao tem figura selecionada
         
     
 
@@ -72,25 +72,25 @@ class controladordesenho:
         self.canvas.bind("<Double-Button-1>", self.finalizar_poligono)
 
     def ao_clicar(self, event): 
-            self.estado_atual.iniciar_figura_nova(event, self) 
+            self.estado_atual.ao_clicar(event,self) 
             self.desenhar_figuras()
             self.desenhar_figura_nova()
     
     def ao_mover(self, event):  
         if self.figura_atual is not None:
-            self.estado_atual.atualizar_figura_nova(event, self)
+            self.estado_atual.ao_mover(event,self)
             self.desenhar_figuras()
             self.desenhar_figura_nova()
         else:
             return
     def ao_soltar(self, event): 
-            self.estado_atual.incluir_figura_nova(event, self)
+            self.estado_atual.ao_soltar(event,self)
             self.desenhar_figuras()
             self.desenhar_figura_nova()
         
     
     def finalizar_poligono(self, event):
-            self.estado_atual.finalizar_poligono(event, self)
+            self.estado_atual.finalizar_poligono(event,self)
             self.desenhar_figuras()
             self.desenhar_figura_nova()
 

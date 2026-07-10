@@ -15,14 +15,14 @@ class ferramenta(ABC):
 
     @abstractmethod
 
-    def iniciar_figura_nova(self, event,controladordesenho): 
+    def ao_clicar(self, event,controladordesenho): 
         pass
     @ abstractmethod
 
-    def atualizar_figura_nova(self, event,controladordesenho):
+    def ao_mover(self, event,controladordesenho):
         pass
     @abstractmethod
-    def incluir_figura_nova(self,event,controladordesenho):
+    def ao_soltar(self,event,controladordesenho):
         pass
     @abstractmethod
     def finalizar_poligono(self,event,controladordesenho):

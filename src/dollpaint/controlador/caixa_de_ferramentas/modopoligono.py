@@ -4,7 +4,8 @@ from .ferramentas import ferramenta
 
 
 class modopoligono(ferramenta):
-    def iniciar_figura_nova(self, event, controladordesenho):
+
+    def ao_clicar(self, event, controladordesenho):
 
     # se a gaveta estiver vazia significa que é o primeiro click
        if controladordesenho.figura_atual is None:
@@ -22,7 +23,7 @@ class modopoligono(ferramenta):
        controladordesenho.desenhar_figuras()
        controladordesenho.desenhar_figura_nova()
    
-    def atualizar_figura_nova(self, event, controladordesenho):
+    def ao_mover(self, event, controladordesenho):
         if controladordesenho.figura_atual is not None:
             controladordesenho.figura_atual.pontos[-2] = event.x
             controladordesenho.figura_atual.pontos[-1] = event.y
@@ -31,7 +32,7 @@ class modopoligono(ferramenta):
         else:
             return
 
-    def incluir_figura_nova(self, event, controladordesenho):
+    def ao_soltar(self, event, controladordesenho):
         pass
     # ta vazio porque o poligono vai ser adicionada por finalizar poligono
 

@@ -3,7 +3,7 @@ from .ferramentas import ferramenta
 
 class modooval(ferramenta):
 
-    def iniciar_figura_nova(self, event, controladordesenho):
+    def ao_clicar(self, event, controladordesenho):
        
        controladordesenho.figura_atual=oval([event.x, event.y, event.x, event.y],
                                              controladordesenho.cor_traço,
@@ -11,7 +11,7 @@ class modooval(ferramenta):
        controladordesenho.desenhar_figuras()
        controladordesenho.desenhar_figura_nova()
 
-    def atualizar_figura_nova(self, event, controladordesenho):
+    def ao_mover(self, event, controladordesenho):
         
         if controladordesenho.figura_atual is not None:
          controladordesenho.figura_atual.pontos[2] = event.x
@@ -20,7 +20,7 @@ class modooval(ferramenta):
          controladordesenho.desenhar_figura_nova()
         else:
             return
-    def incluir_figura_nova(self, event, controladordesenho):
+    def ao_soltar(self, event, controladordesenho):
         # verifcando se tem algo
         if controladordesenho.figura_atual is not None:
             # adicionando na gaveta de figuras
@@ -29,5 +29,6 @@ class modooval(ferramenta):
             controladordesenho.figura_atual=None
         controladordesenho.desenhar_figuras()
         controladordesenho.desenhar_figura_nova()
+        
     def finalizar_poligono(self, event, controladordesenho):
         pass

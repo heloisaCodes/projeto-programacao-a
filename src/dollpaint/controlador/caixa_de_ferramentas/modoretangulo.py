@@ -3,7 +3,7 @@ from .ferramentas import ferramenta
 
 class modoretangulo(ferramenta):
 
-    def iniciar_figura_nova(self, event, controladordesenho):
+    def ao_clicar(self, event, controladordesenho):
 
           # busco na gaveta de novo
         cor_traco =controladordesenho.cor_traço
@@ -12,7 +12,7 @@ class modoretangulo(ferramenta):
         controladordesenho.figura_atual=retangulo([event.x, event.y, event.x, event.y], cor_traco, cor_preenchimento)
         controladordesenho.desenhar_figuras()
         controladordesenho.desenhar_figura_nova()
-    def atualizar_figura_nova(self, event, controladordesenho):
+    def ao_mover(self, event, controladordesenho):
          if controladordesenho.figura_atual is not None:
              controladordesenho.figura_atual.pontos[2] = event.x
              controladordesenho.figura_atual.pontos[3] = event.y
@@ -22,7 +22,7 @@ class modoretangulo(ferramenta):
              return
     
     
-    def incluir_figura_nova(self, event, controladordesenho):
+    def ao_soltar(self, event, controladordesenho):
         # verifcando se tem algo
         if controladordesenho.figura_atual is not None:
             # adicionando na gaveta de figuras

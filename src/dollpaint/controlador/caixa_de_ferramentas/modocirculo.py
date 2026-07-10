@@ -3,7 +3,7 @@ from .ferramentas import ferramenta
         
 class modocirculo(ferramenta):
 
-    def iniciar_figura_nova(self, event, controladordesenho):
+    def ao_clicar(self, event, controladordesenho):
         # busco na gaveta de novo
         cor_traco =controladordesenho.cor_traço
         cor_preenchimento = controladordesenho.cor_preenchimento
@@ -13,7 +13,7 @@ class modocirculo(ferramenta):
         controladordesenho.desenhar_figuras()
         controladordesenho.desenhar_figura_nova()
 
-    def atualizar_figura_nova(self, event, controladordesenho):
+    def ao_mover(self, event, controladordesenho):
         # verificando se a gaveta nao é vazia
         if controladordesenho.figura_atual is not None:
             x_centro = controladordesenho.figura_atual.pontos[0]
@@ -26,7 +26,7 @@ class modocirculo(ferramenta):
         else:
             return
     
-    def incluir_figura_nova(self, event, controladordesenho):
+    def ao_soltar(self, event, controladordesenho):
         # verifcando se tem algo
         if controladordesenho.figura_atual is not None:
             # adicionando na gaveta de figuras
