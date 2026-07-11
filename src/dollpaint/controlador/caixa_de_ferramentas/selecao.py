@@ -14,8 +14,8 @@ class selecao(ferramenta):
     def ao_mover(self, event, controladordesenho):
        if controladordesenho.figura_selecionada:
           # so calculo basico ate agora
-          dx= event.x - event[0]
-          dy=event.y - event[1]
+          dx= event.x - self.event[0]
+          dy=event.y - self.event[1]
           controladordesenho.figura_selecionada.mover(dx,dy)
 
     def ao_soltar(self, event, controladordesenho):
