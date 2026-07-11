@@ -27,7 +27,7 @@ class JanelaPrincipal(tk.Tk):
         #CONTROLADOR
         
         # instancia o controlador passando o Canvas e a gavarya com a escolha
-        self.controlador = controladordesenho(canvas=self.area_desenho.canvas, escolha_atual=self.barra.escolha_menu)
+        self.controlador = controladordesenho(canvas=self.area_desenho.canvas, escolha_atual=self.barra.escolha_menu,)
         
         # gaveta das cores
         self.controlador.tracoBoxFrame = self.barra.tracoBoxFrame

@@ -55,6 +55,7 @@ class controladordesenho:
             "círculo": modocirculo,
             "retângulo": modoretangulo,
             "borracha": Modoborracha
+            #"selecao" : selecao /colocar quando estiver pronto
         }
 
         self.estado_atual = None  # Esvazia a gaveta

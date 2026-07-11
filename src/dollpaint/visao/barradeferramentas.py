@@ -39,6 +39,12 @@ class BarraFerramentas(tk.Frame):
         self.preenchimentoBoxFrame = tk.Frame(self, height=25, width=25, relief=tk.SUNKEN, borderwidth=3, bg="white")
         self.preenchimentoBoxFrame.grid(column=5, row=0, sticky=tk.W, **paddings)
 
+        # botao para selecao
+        self.selecionarButton = tk.Button(self, text="Selecionar", width=12)
+        self.selecionarButton.grid(column=6, row=0, sticky=tk.W, **paddings)
+        self.selecionarBoxFrame = tk.Frame(self, height=25, width=25, relief=tk.SUNKEN, borderwidth=3, bg="white")
+        self.selecionarBoxFrame.grid(column=7, row=0, sticky=tk.W, **paddings)
+
         
         # tudo o que for colocado debaixo dessa linha vai ser empurrado para a direita,lembrar para os nossos proximos botoes
         self.columnconfigure(6, weight=1)
