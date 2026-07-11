@@ -7,7 +7,8 @@ class selecao(ferramenta):
     def ao_clicar(self, event, controladordesenho):
         self.pontos=[event.x,event.y]
         for f in controladordesenho.figuras:
-          if f.conten(event.x,event.y):
+          if f.pertence(event.x,event.y):
+            # contem agora é pertence 
             controladordesenho.figura_selecionada=f
             break
           
