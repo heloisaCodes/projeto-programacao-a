@@ -1,4 +1,5 @@
 from .figura import figura
+import math 
 
 class circulo(figura):
     def __init__(self, pontos, c_traco, c_preenchimento):
@@ -19,3 +20,20 @@ class circulo(figura):
             fill=self.c_preenchimento,
             dash=dash
         )
+        
+    def pertence(self,px,py):
+        x_centro = self.pontos[0]
+        y_centro = self.pontos[1]
+        raio = self.pontos[2]
+
+        #distancia euclidiana = d = sqrt((x2 - x1)^2 + (y2 - y1)^2)
+        #obs: sqrt = square root (raiz quadrada)
+        distancia = math.sqrt((x - x_centro)**2 + (y - y_centro)**2)
+
+        #booleano que da o veredito
+        return distancia <= raio
+
+    def mover(self,dx,dy):
+        self.pontos[0] += dx
+        self.pontos[1] += dy
+        #atualiza xcentro e ycentro
