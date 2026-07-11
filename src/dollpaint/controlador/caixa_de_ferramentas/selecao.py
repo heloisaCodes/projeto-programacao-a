@@ -1,6 +1,6 @@
 from caixa_de_ferramentas.ferramentas import ferramenta
 
-
+# meu pensamento é que essa classe so seja ativada com o bota oboolenao
 class selecao(ferramenta):
 
     # dentro de cada figura vai ter um contem
