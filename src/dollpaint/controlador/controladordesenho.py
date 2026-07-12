@@ -170,8 +170,8 @@ class controladordesenho:
 
 
     def desenhar_figura_nova(self):
-        # Desenha a figura da gaveta com linha tracejada        
-        if self.figura_atual is not None:
+        # A borracha não tem uma figura_atual, então só desenhamos se não for borracha
+        if self.figura_atual is not None and not isinstance(self.estado_atual, Modoborracha):
             self.figura_atual.desenhar(self.canvas, dash=(4, 2))
 
 
