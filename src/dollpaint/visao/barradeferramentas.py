@@ -18,7 +18,7 @@ class BarraFerramentas(tk.Frame):
 
         # gaveta do menu
         self.escolha_menu = tk.StringVar(value="rabisco")# ta rabsico porque a gente vai inciar com isso
-
+        self.var_selecao = tk.BooleanVar(value=False)
 
         # menu
         self.option_menu = ttk.OptionMenu (self, self.escolha_menu, 'rabisco', 'linha', 'rabisco', 'retângulo', 'oval', 'círculo', 'poligono',"borracha",
@@ -40,7 +40,7 @@ class BarraFerramentas(tk.Frame):
         self.preenchimentoBoxFrame.grid(column=5, row=0, sticky=tk.W, **paddings)
 
         # botao para selecao 
-        self.selecionarButton = tk.Checkbutton(self, text="Selecionar", command=lambda:self.master.controlador.selecao(),indicatoron=False,**paddings,selectcolor="lightblue")
+        self.selecionarButton = tk.Checkbutton(self, text="Selecionar", variable=self.var_selecao,command=lambda:self.master.controlador.selecao(),indicatoron=False,**paddings,selectcolor="lightblue")
         self.selecionarButton.grid(column=6, row=0, sticky=tk.W, **paddings)
         # colocando o botao no frame
         self.selecionarBoxFrame = tk.Frame(self, height=25, width=25, relief=tk.SUNKEN, borderwidth=3, bg="white")

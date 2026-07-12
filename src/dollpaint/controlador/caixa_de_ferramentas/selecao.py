@@ -13,7 +13,6 @@ class modoselecao(ferramenta):
           if f.pertence(event.x,event.y):
             controladordesenho.figura_selecionada=f
             f.destacar()
-            print('figura adiconada')
             break
   
     def ao_mover(self, event, controladordesenho):

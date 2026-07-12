@@ -39,6 +39,7 @@ class controladordesenho:
         # obs: tkinter cria um id auromatico para todas as figuras salvas
         self.figura_selecionada = None # nao tem figura selecionada
         self.selecao_ativa=False
+        self.var_selecao = tk.BooleanVar(value=False)
       # o botao selecionar vai chamar essa  
     def selecao(self):
         # cada vez que clicar vai alterar o estado do botao
@@ -51,6 +52,7 @@ class controladordesenho:
             if self.figura_selecionada:
              self.figura_selecionada.restaurar()
              self.figura_selecionada=None
+             self.var_selecao.set(False)
             self.desenhar_figuras()
             self.estado_atual=self.estado_anterior
            
@@ -60,23 +62,32 @@ class controladordesenho:
     # parte da logistica da mudança
     # pegando o que o que o menu enviou
     def ao_mudar_selecao(self,opcao):
-        texto = self.escolha_menu.get()
-    
-        tradutor_ferramentas = {
-            "rabisco": modorabisco,
-            "oval": modooval,
-            "poligono": modopoligono,
-            "linha": modolinha,
-            "círculo": modocirculo,
-            "retângulo": modoretangulo,
-            "borracha": Modoborracha
-        }
+        # Se tiver uma figura selecionada, limpa o destaque dela antes
+        if getattr(self, 'figura_selecionada', None) is not None:
+            self.figura_selecionada.restaurar()
+            self.figura_selecionada = None
 
-        self.estado_atual = None  # Esvazia a gaveta
-        self.estado_atual = tradutor_ferramentas[texto]()
-            
-        self.desenhar_figuras()
-        self.desenhar_figura_nova()
+        self.selecao_ativa = False
+        # Força o botão de seleção a se desmarcar visualmente na tela
+        self.var_selecao.set(False)
+        if not self.selecao_ativa : 
+            texto = self.escolha_menu.get()
+        
+            tradutor_ferramentas = {
+                "rabisco": modorabisco,
+                "oval": modooval,
+                "poligono": modopoligono,
+                "linha": modolinha,
+                "círculo": modocirculo,
+                "retângulo": modoretangulo,
+                "borracha": Modoborracha
+            }
+
+            self.estado_atual = None  # Esvazia a gaveta
+            self.estado_atual = tradutor_ferramentas[texto]()
+                
+            self.desenhar_figuras()
+            self.desenhar_figura_nova()
 
     #gerenciamento de cliques, deixando o nome mais genérico
     def vincular_eventos(self):
