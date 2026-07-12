@@ -5,6 +5,7 @@ import tkinter.filedialog as filedialog
 #Import de Visao
 from .barradeferramentas import BarraFerramentas
 from .areadesenho import *
+from .paletadecores import *
 from controlador.controladordesenho import *
 
 class JanelaPrincipal(tk.Tk):
@@ -23,20 +24,26 @@ class JanelaPrincipal(tk.Tk):
         self.area_desenho = AreaDesenho(self)
         self.area_desenho.pack(expand=True, fill=tk.BOTH)
         
-        
         #CONTROLADOR
         
         # instancia o controlador passando o Canvas e a gavarya com a escolha
         # para vc poder acessar as gavetas do controlador desenho , tera que chmar: self.controlador
         self.controlador = controladordesenho(canvas=self.area_desenho.canvas, escolha_atual=self.barra.escolha_menu,)
         self.controlador.var_selecao = self.barra.var_selecao
+        
         # gaveta das cores
+        self.paleta = PaletadeCores(self,self.controlador)
         self.controlador.tracoBoxFrame = self.barra.tracoBoxFrame
         self.controlador.preenchimentoBoxFrame = self.barra.preenchimentoBoxFrame
-        
+
+        #paleta atualizada
+        self.paleta = PaletadeCores(self, self.controlador)
+        self.paleta.pack(side=tk.BOTTOM, fill=tk.X, padx=5, pady=5)
+                        
+    
         # commands dos botões de cor da barra de ferramentas
-        self.barra.tracoButton.config(command=self.controlador.selecionar_cor_traco)
-        self.barra.preenchimentoButton.config(command=self.controlador.selecionar_cor_preenchimento)
+        self.barra.tracoButton.config(command=lambda: self.paleta.definir_modo("traco"))
+        self.barra.preenchimentoButton.config(command=lambda: self.paleta.definir_modo("preenchimento"))
         
         # ativa os binds
         self.controlador.vincular_eventos()

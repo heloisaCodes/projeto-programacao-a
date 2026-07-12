@@ -44,7 +44,7 @@ class controladordesenho:
         self.estado_anterior= None
         
         # guardar o id da figura que esta selecionada
-        # obs: tkinter cria um id auromatico para todas as figuras salvas
+        # obs: tkinter cria um id automatico para todas as figuras salvas
         self.figura_selecionada = None # nao tem figura selecionada
         self.selecao_ativa=False
         self.var_selecao = tk.BooleanVar(value=False)
@@ -282,6 +282,24 @@ class controladordesenho:
             
         else:
             self.notificacoes("ERRO EM COLAR")
-            
 
-                                            
+
+
+    def mudar_preenchimento(self, cor):
+        self.cor_preenchimento = cor
+        
+        if self.figura_selecionada:
+            self.figura_selecionada.c_preenchimento = cor
+            
+            self.desenhar_figuras() # Limpa o canvas e redesenha com as novas cores
+
+            
+    def mudar_traco(self,cor):
+        self.cor_traço = cor
+        
+        if self.figura_selecionada:
+            #salva o traco original para nao entrar em conflito com o destacar
+            self.figura_selecionada._cor_traco_original = cor
+            self.figura_selecionada.c_traco = cor
+            
+            self.desenhar_figuras()                              
