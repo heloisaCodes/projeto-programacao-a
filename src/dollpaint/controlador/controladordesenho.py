@@ -290,5 +290,45 @@ class controladordesenho:
         else:
             self.notificacoes("ERRO EM COLAR")
             
+    #novas funcionalidades
+    #excluir e mover figura
+    def excluir_figura(self, event):
+        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
+            self.figuras.remove(self.figura_selecionada)
+            self.figura_selecionada = None 
+            self.desenhar_figuras()
+            self.notificacoes("FIGURA EXCLUÍDA", cor="red")
+
+    def mover_topo(self, event):
+        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
+            self.figuras.remove(self.figura_selecionada)
+            self.figuras.append(self.figura_selecionada) # Joga para o fim (desenha por último/topo)
+            self.desenhar_figuras()
+            self.notificacoes("MOVIDO PARA O TOPO", cor="blue")
+
+    def mover_fundo(self, event):
+        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
+            self.figuras.remove(self.figura_selecionada)
+            self.figuras.insert(0, self.figura_selecionada) # Joga para o início (desenha primeiro/fundo)
+            self.desenhar_figuras()
+            self.notificacoes("MOVIDO PARA O FUNDO", cor="blue")
+
+    def mover_frente(self, event):
+        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
+            idx = self.figuras.index(self.figura_selecionada)
+            if idx < len(self.figuras) - 1: # Verifica se já não é a última
+                # Troca de posição com a da frente
+                self.figuras[idx], self.figuras[idx+1] = self.figuras[idx+1], self.figuras[idx]
+                self.desenhar_figuras()
+                self.notificacoes("MOVIDO PARA FRENTE", cor="green")
+
+    def mover_tras(self, event):
+        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
+            idx = self.figuras.index(self.figura_selecionada)
+            if idx > 0: # Verifica se já não é a primeira
+                # Troca de posição com a de trás
+                self.figuras[idx], self.figuras[idx-1] = self.figuras[idx-1], self.figuras[idx]
+                self.desenhar_figuras()
+                self.notificacoes("MOVIDO PARA TRÁS", cor="green")
 
                                             
