@@ -115,6 +115,13 @@ class controladordesenho:
         self.canvas.bind("<Control-C>",self.copiar)
         self.canvas.bind("<Control-v>", self.colar)
         self.canvas.bind("<Control-V>",self.colar)
+
+        #eventos para excluir e mover a figura
+        self.canvas.bind("<Delete>", self.excluir_figura)
+        self.canvas.bind("<Right>", self.mover_frente)
+        self.canvas.bind("<Left>", self.mover_tras)
+        self.canvas.bind("<Up>", self.mover_topo)
+        self.canvas.bind("<Down>", self.mover_fundo)
                                                        
 
 
