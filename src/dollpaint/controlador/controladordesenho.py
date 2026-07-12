@@ -48,8 +48,12 @@ class controladordesenho:
             self.estado_anterior=self.estado_atual
             self.estado_atual=modoselecao()
         else:
-            
+            if self.figura_selecionada:
+             self.figura_selecionada.restaurar()
+             self.figura_selecionada=None
+            self.desenhar_figuras()
             self.estado_atual=self.estado_anterior
+           
 
     
       

@@ -7,6 +7,7 @@ class modoselecao(ferramenta):
     def ao_clicar(self, event, controladordesenho):
         if controladordesenho.figura_selecionada:
               controladordesenho.figura_selecionada.restaurar()
+              controladordesenho.figura_selecionada=None
         self.pontos=[event.x,event.y]
         for f in controladordesenho.figuras:
           if f.pertence(event.x,event.y):

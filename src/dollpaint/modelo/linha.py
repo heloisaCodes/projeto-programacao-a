@@ -18,7 +18,7 @@ class linha(figura):
         x2,y2 = self.pontos[2],self.pontos[3]
 
         #definindo a qntd da margem
-        margem = 10
+        margem = 5
 
         #definindo a margem
         if not (min(x1, x2) - margem <= px <= max(x1, x2) + margem  and 
