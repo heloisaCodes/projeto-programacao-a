@@ -9,11 +9,9 @@ class figura:
     def desenhar(self, canvas, dash=None):
         pass
 
-    #recebe os pontos 
     def pertence(self,px,py):
         pass
-
-    #recebe a distancia
+        
     def mover(self,dx,dy):
         pass
     
