@@ -24,18 +24,19 @@ class poligono(figura):
             xi,yi = self.pontos[i*2], self.pontos[i*2 +1]
             xj,yj = self.pontos[j*2], self.pontos[j*2 +1]
 
-            if ((yi > y) != (yj > y)) and (x < (xj - xi) * (y - yi) / (yj - yi + 1e-9) + xi):
+            if ((yi > py) != (yj > py)) and (px < (xj - xi) * (py - yi) / (yj - yi + 1e-9) + xi):
                 dentro = True
                 
             j = i
             
         return dentro
 
-    def mover(self,dx,dy):
+    def mover(self,canvas,dx,dy):
         for i in range(len(self.pontos)):
             if i % 2 == 0:
                 self.pontos[i] += dx #eixo x
             else:
                 self.pontos[i] += dy #eixo y
-
+        canvas.delete("all")  # Limpa o canvas
+        self.desenhar(canvas)
         

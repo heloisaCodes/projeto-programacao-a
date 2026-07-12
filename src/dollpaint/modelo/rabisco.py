@@ -28,11 +28,11 @@ class rabisco(figura):
                 continue
             
             #reta infinita
-            numerador = abs((y2 - y1) * x - (x2 - x1) * y + x2 * y1 - y2 * x1)
+            numerador = abs((y2 - y1) * px - (x2 - x1) * py + x2 * y1 - y2 * x1)
             denominador = math.sqrt((y2 - y1)**2 + (x2 - x1)**2)
 
-            if denominador = 0
-                distancia = math.sqrt((x - x1)**2 + (y - y1)**2)
+            if denominador == 0:
+                distancia = math.sqrt((px - x1)**2 + (py - y1)**2)
             else:
                 distancia = numerador / denominador
 
@@ -41,12 +41,14 @@ class rabisco(figura):
                 
         return False
 
-    def mover(self,dx,dy):
+    def mover(self,canvas,dx,dy):
         for i in range(len(self.pontos)):
             if i % 2 == 0:
                 self.pontos[i] += dx
             else:
                 self.pontos[i] += dy
+        canvas.delete("all")  # Limpa o canvas
+        self.desenhar(canvas)
             
                     
         

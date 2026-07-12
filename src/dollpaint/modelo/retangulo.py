@@ -23,7 +23,7 @@ class retangulo(figura):
 
         return dentro_x and dentro_y
 
-    def mover(self,dx,dy):
+    def mover(self,canvas,dx,dy):
         self.pontos[0] += dx 
         self.pontos[1] += dy  
         self.pontos[2] += dx  

@@ -27,15 +27,17 @@ class oval(figura):
             return False
 
         # 3. Aplica a equação canônica da elipse: ((x-h)^2 / a^2) + ((y-k)^2 / b^2) <= 1
-        resultado = ((x - h) ** 2) / (a ** 2) + ((y - k) ** 2) / (b ** 2)
+        resultado = ((px - h) ** 2) / (a ** 2) + ((py - k) ** 2) / (b ** 2)
 
         return resultado <= 1
 
 
-    def mover(self,dx,dy):
+    def mover(self,canvas,dx,dy):
         self.pontos[0] += dx  # x1
         self.pontos[1] += dy  # y1
         self.pontos[2] += dx  # x2
-        self.pontos[3] += dy  # y2                         
+        self.pontos[3] += dy  # y2   
+        canvas.delete("all")  # Limpa o canvas
+        self.desenhar(canvas)                      
 
         
