@@ -33,7 +33,6 @@ class modocirculo(ferramenta):
             controladordesenho.figuras.append(controladordesenho.figura_atual)
             # limpar para o proximo desenho
             controladordesenho.figura_atual=None
-            controladordesenho.desenhar_figuras()
-            controladordesenho.desenhar_figura_nova()
+        
     def finalizar_poligono(self, event, controladordesenho):
         pass

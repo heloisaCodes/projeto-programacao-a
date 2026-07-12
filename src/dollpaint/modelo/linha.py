@@ -38,10 +38,13 @@ class linha(figura):
         #bool para o veredito
         return distancia <= margem
         
-    def mover(self,dx,dy):
+    def mover(self,canvas,dx,dy):
         self.pontos[0] += dx
         self.pontos[1] += dy
         self.pontos[2] += dx
         self.pontos[3] += dy
+        # tive que adicionar isso aqui , pra limpar o quadro e chmar desenhar, ou seja é quase a mesma logica de atualizar
+        canvas.delete("all")  # Limpa o canvas
+        self.desenhar(canvas)
 
     

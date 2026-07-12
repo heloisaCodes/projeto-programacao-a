@@ -12,7 +12,7 @@ class JanelaPrincipal(tk.Tk):
         super().__init__()
         
         # Tamanho da janela
-        self.geometry("1600x1800")
+        self.geometry("800x400")
         self.title("DollPaint")
         
         # Criando a barra de ferramentas e colocando no lugar

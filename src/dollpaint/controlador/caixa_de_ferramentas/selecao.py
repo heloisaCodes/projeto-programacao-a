@@ -11,14 +11,18 @@ class modoselecao(ferramenta):
             controladordesenho.figura_selecionada=f
             print('figura adiconada')
             break
-          
+  
     def ao_mover(self, event, controladordesenho):
-       if controladordesenho.figura_selecionada:
-          # so calculo basico ate agora
-          dx= event.x - self.event[0]
-          dy=event.y - self.event[1]
-          controladordesenho.figura_selecionada.mover(dx,dy)
-
+      
+        if controladordesenho.figura_selecionada:
+            dx = event.x - self.pontos[0]
+            dy = event.y - self.pontos[1]
+            controladordesenho.figura_selecionada.mover(controladordesenho.canvas, dx, dy)
+            self.pontos = [event.x, event.y]
+        
+            # Atualiza self.pontos com a nova posição do mouse
+            # Se não atualizar, a figura vai dar um salto gigante na tela
+            self.pontos = [event.x, event.y]
     def ao_soltar(self, event, controladordesenho):
        controladordesenho.figura_selecionada=None
     def finalizar_poligono(self,event,controladordesenho):

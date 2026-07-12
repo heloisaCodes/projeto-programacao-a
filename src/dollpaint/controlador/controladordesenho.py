@@ -77,7 +77,7 @@ class controladordesenho:
     def vincular_eventos(self):
         self.canvas.bind("<Button-1>", self.ao_clicar) #iniciar
         self.canvas.bind("<B1-Motion>", self.ao_mover) #atualizar
-        self.canvas.bind("<Motion>", self.ao_mover)
+        #self.canvas.bind("<Motion>", self.ao_mover)
         self.canvas.bind("<ButtonRelease-1>", self.ao_soltar) #incluir
         self.canvas.bind("<Double-Button-1>", self.finalizar_poligono)
 
@@ -87,12 +87,11 @@ class controladordesenho:
             self.desenhar_figura_nova()
     
     def ao_mover(self, event):  
-        if self.figura_atual is not None:
             self.estado_atual.ao_mover(event,self)
             self.desenhar_figuras()
-            self.desenhar_figura_nova()
-        else:
-            return
+            # movi essa trava pra aqui, ja que isso so vai ser uado no modo desenho
+            if self.figura_atual is not None:
+             self.desenhar_figura_nova()
     def ao_soltar(self, event): 
             self.estado_atual.ao_soltar(event,self)
             self.desenhar_figuras()

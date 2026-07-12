@@ -33,7 +33,9 @@ class circulo(figura):
         #booleano que da o veredito
         return distancia <= raio
 
-    def mover(self,dx,dy):
+    def mover(self,canvas,dx,dy):
         self.pontos[0] += dx
         self.pontos[1] += dy
+        canvas.delete("all")  # Limpa o canvas
+        self.desenhar(canvas)
         #atualiza xcentro e ycentro
