@@ -107,14 +107,25 @@ class controladordesenho:
 
     #gerenciamento de cliques, deixando o nome mais genérico
     def vincular_eventos(self):
+
+        #desenhar e selecionar
         self.canvas.bind("<Button-1>", self.ao_clicar) #iniciar
         self.canvas.bind("<B1-Motion>", self.ao_mover) #atualizar
         self.canvas.bind("<ButtonRelease-1>", self.ao_soltar) #incluir
         self.canvas.bind("<Double-Button-1>", self.finalizar_poligono)
+
+        #copiar e colar
         self.canvas.bind("<Control-c>", self.copiar)
         self.canvas.bind("<Control-C>",self.copiar)
         self.canvas.bind("<Control-v>", self.colar)
         self.canvas.bind("<Control-V>",self.colar)
+
+        #eventos para excluir e mover a figura
+        self.canvas.bind("<Delete>", self.excluir_figura)
+        self.canvas.bind("<Right>", self.mover_frente)
+        self.canvas.bind("<Left>", self.mover_tras)
+        self.canvas.bind("<Up>", self.mover_topo)
+        self.canvas.bind("<Down>", self.mover_fundo)
                                                        
 
 
@@ -163,31 +174,10 @@ class controladordesenho:
 
 
     def desenhar_figura_nova(self):
-        # Desenha a figura da gaveta com linha tracejada        
-        if self.figura_atual is not None:
+        # A borracha não tem uma figura_atual, então só desenhamos se não for borracha
+        if self.figura_atual is not None and not isinstance(self.estado_atual, Modoborracha):
             self.figura_atual.desenhar(self.canvas, dash=(4, 2))
-
-
-
-
-    def selecionar_cor_traco(self):
-        selectedColor = colorchooser.askcolor(title="Cor do Traço")
-        if selectedColor[1]: 
-            self.cor_traço = selectedColor[1]
-            if hasattr(self, 'tracoBoxFrame') and self.tracoBoxFrame:
-                self.tracoBoxFrame.config(bg=self.cor_traço)
-
-
-
-
-    def selecionar_cor_preenchimento(self):
-        selectedColor = colorchooser.askcolor(title="Cor de Preenchimento")
-        if selectedColor[1]: 
-            self.cor_preenchimento = selectedColor[1]
-            if hasattr(self, 'preenchimentoBoxFrame') and self.preenchimentoBoxFrame:
-                self.preenchimentoBoxFrame.config(bg=self.cor_preenchimento)
-
-
+            
 
 
     def salvar_arquivo_desenho(self, caminho):
@@ -283,8 +273,50 @@ class controladordesenho:
         else:
             self.notificacoes("ERRO EM COLAR")
 
+            
+    #novas funcionalidades
+    #excluir e mover figura
+    def excluir_figura(self, event):
+        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
+            self.figuras.remove(self.figura_selecionada)
+            self.figura_selecionada = None 
+            self.desenhar_figuras()
+            self.notificacoes("FIGURA EXCLUÍDA", cor="red")
+
+    def mover_topo(self, event):
+        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
+            self.figuras.remove(self.figura_selecionada)
+            self.figuras.append(self.figura_selecionada) # Joga para o fim (desenha por último/topo)
+            self.desenhar_figuras()
+            self.notificacoes("MOVIDO PARA O TOPO", cor="blue")
+
+    def mover_fundo(self, event):
+        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
+            self.figuras.remove(self.figura_selecionada)
+            self.figuras.insert(0, self.figura_selecionada) # Joga para o início (desenha primeiro/fundo)
+            self.desenhar_figuras()
+            self.notificacoes("MOVIDO PARA O FUNDO", cor="blue")
+
+    def mover_frente(self, event):
+        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
+            idx = self.figuras.index(self.figura_selecionada)
+            if idx < len(self.figuras) - 1: # Verifica se já não é a última
+                # Troca de posição com a da frente
+                self.figuras[idx], self.figuras[idx+1] = self.figuras[idx+1], self.figuras[idx]
+                self.desenhar_figuras()
+                self.notificacoes("MOVIDO PARA FRENTE", cor="green")
+
+    def mover_tras(self, event):
+        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
+            idx = self.figuras.index(self.figura_selecionada)
+            if idx > 0: # Verifica se já não é a primeira
+                # Troca de posição com a de trás
+                self.figuras[idx], self.figuras[idx-1] = self.figuras[idx-1], self.figuras[idx]
+                self.desenhar_figuras()
+                self.notificacoes("MOVIDO PARA TRÁS", cor="green"
 
 
+    #substitutas de selecionar
     def mudar_preenchimento(self, cor):
         self.cor_preenchimento = cor
         
