@@ -28,8 +28,8 @@ class circulo(figura):
 
         #distancia euclidiana = d = sqrt((x2 - x1)^2 + (y2 - y1)^2)
         #obs: sqrt = square root (raiz quadrada)
-        distancia = math.sqrt((x - x_centro)**2 + (y - y_centro)**2)
-
+        distancia = math.sqrt((px - x_centro)**2 + (py - y_centro)**2)
+        print(distancia <= raio)
         #booleano que da o veredito
         return distancia <= raio
 

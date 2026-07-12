@@ -33,12 +33,22 @@ class controladordesenho:
         # estado inicial padrão 
         # o paranteses pq ta devolvendo um objeto vivo que sera posso aplicar os metodos
         self.estado_atual = modorabisco() 
+        self.estado_anterior= None
         
         # guardar o id da figura que esta selecionada
         # obs: tkinter cria um id auromatico para todas as figuras salvas
         self.figura_selecionada = None # nao tem figura selecionada
-        
-    
+        self.selecao_ativa=False
+      # o botao selecionar vai chamar essa  
+    def selecao(self):
+        # cada vez que clicar vai alterar o estado do botao
+        self.selecao_ativa=not self.selecao_ativa
+
+        if self.selecao_ativa:
+            self.estado_anterior=self.estado_atual
+            self.estado_atual=modoselecao()
+        else:
+            self.estado_atual=self.estado_anterior
 
     
       
@@ -55,7 +65,6 @@ class controladordesenho:
             "círculo": modocirculo,
             "retângulo": modoretangulo,
             "borracha": Modoborracha
-            #"selecao" : selecao /colocar quando estiver pronto
         }
 
         self.estado_atual = None  # Esvazia a gaveta

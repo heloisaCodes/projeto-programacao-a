@@ -5,4 +5,5 @@ from .modopoligono import*
 from .modoretangulo import*
 from .modocirculo import *
 from .modorabisco import *
-from .modoborracha import *
+from .selecao import *
+from . modoborracha  import*

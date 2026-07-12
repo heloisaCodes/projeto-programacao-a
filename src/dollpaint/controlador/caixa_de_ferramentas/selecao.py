@@ -1,15 +1,15 @@
-from caixa_de_ferramentas.ferramentas import ferramenta
+from .ferramentas import ferramenta
 
 # meu pensamento é que essa classe so seja ativada com o bota oboolenao
-class selecao(ferramenta):
+class modoselecao(ferramenta):
 
     # dentro de cada figura vai ter um contem
     def ao_clicar(self, event, controladordesenho):
         self.pontos=[event.x,event.y]
         for f in controladordesenho.figuras:
           if f.pertence(event.x,event.y):
-            # contem agora é pertence 
             controladordesenho.figura_selecionada=f
+            print('figura adiconada')
             break
           
     def ao_mover(self, event, controladordesenho):
@@ -21,6 +21,8 @@ class selecao(ferramenta):
 
     def ao_soltar(self, event, controladordesenho):
        controladordesenho.figura_selecionada=None
+    def finalizar_poligono(self,event,controladordesenho):
+        pass
           
              
         

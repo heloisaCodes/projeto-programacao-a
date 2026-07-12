@@ -39,9 +39,10 @@ class BarraFerramentas(tk.Frame):
         self.preenchimentoBoxFrame = tk.Frame(self, height=25, width=25, relief=tk.SUNKEN, borderwidth=3, bg="white")
         self.preenchimentoBoxFrame.grid(column=5, row=0, sticky=tk.W, **paddings)
 
-        # botao para selecao
-        self.selecionarButton = tk.Button(self, text="Selecionar", width=12)
+        # botao para selecao 
+        self.selecionarButton = tk.Checkbutton(self, text="Selecionar", command=lambda:self.master.controlador.selecao(),indicatoron=False,**paddings,selectcolor="lightblue")
         self.selecionarButton.grid(column=6, row=0, sticky=tk.W, **paddings)
+        # colocando o botao no frame
         self.selecionarBoxFrame = tk.Frame(self, height=25, width=25, relief=tk.SUNKEN, borderwidth=3, bg="white")
         self.selecionarBoxFrame.grid(column=7, row=0, sticky=tk.W, **paddings)
 
@@ -55,4 +56,5 @@ class BarraFerramentas(tk.Frame):
         # # botao abrir coluna 8 direita
         self.btn_abrir = ttk.Button(self, text="Abrir")
         self.btn_abrir.grid(column=8, row=0, sticky=tk.E, **paddings)
+        
         

@@ -7,5 +7,5 @@ class borracha:
        # saco sem fundo
     def desenhar(self, canvas,**kwargs):
         if len(self.pontos) >= 4:
-            canvas.create_line(self.pontos, fill=self.cor_traco, width=20, capstyle="round", smooth=True)
+            canvas.create_line(self.pontos, fill=self.cor_traco, width=100, capstyle="round", smooth=True)
             # par deixar a borracha mais bonitinha
