@@ -5,10 +5,13 @@ class modoselecao(ferramenta):
 
     # dentro de cada figura vai ter um contem
     def ao_clicar(self, event, controladordesenho):
+        if controladordesenho.figura_selecionada:
+              controladordesenho.figura_selecionada.restaurar()
         self.pontos=[event.x,event.y]
         for f in controladordesenho.figuras:
           if f.pertence(event.x,event.y):
             controladordesenho.figura_selecionada=f
+            f.destacar()
             print('figura adiconada')
             break
   
@@ -23,8 +26,10 @@ class modoselecao(ferramenta):
             # Atualiza self.pontos com a nova posição do mouse
             # Se não atualizar, a figura vai dar um salto gigante na tela
             self.pontos = [event.x, event.y]
+     
+
     def ao_soltar(self, event, controladordesenho):
-       controladordesenho.figura_selecionada=None
+       pass
     def finalizar_poligono(self,event,controladordesenho):
         pass
           

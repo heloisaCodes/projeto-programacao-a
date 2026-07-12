@@ -48,6 +48,7 @@ class controladordesenho:
             self.estado_anterior=self.estado_atual
             self.estado_atual=modoselecao()
         else:
+            
             self.estado_atual=self.estado_anterior
 
     
