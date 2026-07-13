@@ -15,31 +15,28 @@ class JanelaPrincipal(tk.Tk):
         # Tamanho da janela
         self.geometry("800x400")
         self.title("DollPaint")
+        self.config(bg="#FCE4EC")
         
         # Criando a barra de ferramentas e colocando no lugar
         self.barra = BarraFerramentas(self)
         self.barra.pack(anchor=tk.W, fill=tk.X)
-        
-        # Área de Desenho
+
+        #instancia na ordem necessaria para o pack nao dar errado
         self.area_desenho = AreaDesenho(self)
+        self.controlador = controladordesenho(canvas=self.area_desenho.canvas, escolha_atual=self.barra.escolha_menu,)
+        self.paleta = PaletadeCores(self, self.controlador)
+
+        #arruma no frame
+        self.paleta.pack(side=tk.BOTTOM, fill=tk.X, padx=5, pady=5)
         self.area_desenho.pack(expand=True, fill=tk.BOTH)
-        
-        #CONTROLADOR
         
         # instancia o controlador passando o Canvas e a gavarya com a escolha
         # para vc poder acessar as gavetas do controlador desenho , tera que chmar: self.controlador
-        self.controlador = controladordesenho(canvas=self.area_desenho.canvas, escolha_atual=self.barra.escolha_menu,)
         self.controlador.var_selecao = self.barra.var_selecao
         
         # gaveta das cores
-        self.paleta = PaletadeCores(self,self.controlador)
         self.controlador.tracoBoxFrame = self.barra.tracoBoxFrame
-        self.controlador.preenchimentoBoxFrame = self.barra.preenchimentoBoxFrame
-
-        #paleta atualizada
-        self.paleta = PaletadeCores(self, self.controlador)
-        self.paleta.pack(side=tk.BOTTOM, fill=tk.X, padx=5, pady=5)
-                        
+        self.controlador.preenchimentoBoxFrame = self.barra.preenchimentoBoxFrame                    
     
         # commands dos botões de cor da barra de ferramentas
         self.barra.tracoButton.config(command=lambda: self.paleta.definir_modo("traco"))

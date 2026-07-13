@@ -1,10 +1,10 @@
 # Tkinter
 from tkinter import *
-from tkinter import colorchooser
 
 #Imports de Modelo
 from modelo.figuras import *
 from modelo.borracha import *
+from modelo.cores import listadecores
 
 #Import de Visao
 from visao.areadesenho import *
@@ -36,7 +36,8 @@ class controladordesenho:
         self.escolha_menu=escolha_atual
         # gaveta das cores
         self.cor_traço = "black"          
-        self.cor_preenchimento = ""  
+        self.cor_preenchimento = ""
+        self.cores = listadecores
         
         # estado inicial padrão 
         # o paranteses pq ta devolvendo um objeto vivo que sera posso aplicar os metodos
@@ -87,13 +88,13 @@ class controladordesenho:
             texto = self.escolha_menu.get()
         
             tradutor_ferramentas = {
-                "rabisco": modorabisco,
-                "oval": modooval,
-                "poligono": modopoligono,
-                "linha": modolinha,
-                "círculo": modocirculo,
-                "retângulo": modoretangulo,
-                "borracha": Modoborracha
+                "Rabisco": modorabisco,
+                "Oval": modooval,
+                "Polígono": modopoligono,
+                "Linha": modolinha,
+                "Círculo": modocirculo,
+                "Retângulo": modoretangulo,
+                "Borracha": Modoborracha
             }
 
             self.estado_atual = None  # Esvazia a gaveta
@@ -313,7 +314,7 @@ class controladordesenho:
                 # Troca de posição com a de trás
                 self.figuras[idx], self.figuras[idx-1] = self.figuras[idx-1], self.figuras[idx]
                 self.desenhar_figuras()
-                self.notificacoes("MOVIDO PARA TRÁS", cor="green"
+                self.notificacoes("MOVIDO PARA TRÁS", cor="green")
 
 
     #substitutas de selecionar

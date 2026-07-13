@@ -11,18 +11,9 @@ class PaletadeCores(tk.Frame):
                          bg="#FCE4EC") # fundo rosa pastel
         self.controlador = controlador
 
-        #vai para modelo
-        # lista de cores
-        self.cores = [ #tons pasteis claros
-        "#F8BBD0", "#E1BEE7", "#D1C4E9", "#C5CAE9", 
-        "#BBDEFB", "#B3E5FC", "#B2EBF2", "#B2DFDB", "#C8E6C9", 
-        "#DCEDC8", "#F0F4C3", "#FFF9C4", "#FFE0B2", "#FFCCBC",
-        # tons ligeiramente mais intensos
-        "#FF80AB", "#EA80FC", "#B388FF", "#8C9EFF", "#82B1FF", 
-        "#80D8FF", "#84FFFF", "#A7FFEB", "#B9F6CA", "#CCFF90", 
-        "#F4FF81", "#FFFF8D", "#FFE57F", "#FF9E80" ]
+        #lista de cores
+        self.cores = self.controlador.cores
 
-        #vai para visao
         #indicador de cor atual
         self.frame_indicador = tk.Frame(self, width=40, height=40, bg="#FCE4EC", relief=tk.SUNKEN, borderwidth=2)
         self.frame_indicador.pack(side=tk.LEFT, padx=5, pady=5)
@@ -38,7 +29,7 @@ class PaletadeCores(tk.Frame):
 
         self.criar_botoes_paleta()
 
-    def definir_modo(self,modo): #vai para controlador
+    def definir_modo(self,modo):
         self.modo_atual = modo
         if modo == "traco":
             self.caixa_cor.config(bg=self.controlador.cor_traço)
@@ -48,8 +39,8 @@ class PaletadeCores(tk.Frame):
             self.caixa_cor.config(bg=self.controlador.cor_preenchimento)
             
 
-    def criar_botoes_paleta(self):#vai para visao
-        #quantidade de colunas, util para adaptacoes futuras
+    def criar_botoes_paleta(self):
+        #quantidade de colunas
         colunas = 14
 
         for indice, cor in enumerate(self.cores):
@@ -59,14 +50,13 @@ class PaletadeCores(tk.Frame):
              # cria cada quadradinho de cor
             btn_cor = tk.Label(self.grid_cores, bg=cor,activebackground=cor, width=2, height=1, relief=tk.RAISED, borderwidth=2)
             btn_cor.grid(row=linha, column=coluna, padx=1, pady=1,ipadx=6,ipady=4)
-            # Dentro do loop de criar os botões da paleta:
+            #para ser clicavel
             btn_cor.bind("<Button-1>", lambda evento, c=cor: self.mudar_cor_clicada(c))
-
-            self.btn_rgb = tk.Button(self.grid_cores, text="RGB", font=("Arial", 10,
+            #botao pra o colorchooser
+            self.btn_rgb = tk.Button(self.grid_cores, text="MAIS CORES", font=("Arial", 10,
              "bold"), bg="#FCE4EC", activebackground="#FCE4EC", fg="#333333", 
             relief="flat", bd=0, highlightthickness=0, 
             command=self.abrir_seletor)        
-            # self.btn_rgb.pack(side=tk.RIGHT, padx=8, pady=5)
             self.btn_rgb.grid(row=0, column=14, rowspan=2, padx=10, pady=5, sticky="ns")
 
     def abrir_seletor(self):
@@ -75,7 +65,7 @@ class PaletadeCores(tk.Frame):
             cor_hex = cor_selecionada[1]
             self.mudar_cor_clicada(cor_hex)
 
-    def mudar_cor_clicada(self, cor):#vai para controlador?
+    def mudar_cor_clicada(self, cor):
         # verifica qual o modo ativo na paleta
         if self.modo_atual == "traco":
             self.controlador.mudar_traco(cor)
