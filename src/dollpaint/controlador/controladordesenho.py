@@ -47,7 +47,9 @@ class controladordesenho:
         # guardar o id da figura que esta selecionada
         # obs: tkinter cria um id automatico para todas as figuras salvas
         self.figura_selecionada = None # nao tem figura selecionada
+        self.figura_ante=None
         self.selecao_ativa=False
+
         self.var_selecao = tk.BooleanVar(value=False)
 
 
