@@ -15,21 +15,35 @@ class modopoligonoregular(ferramenta):
         controladordesenho.desenhar_figuras()
         controladordesenho.desenhar_figura_nova()
 
-    def aumentarvertices(self,event):
-        self.vertices+=1
-    def dimnuirvertices(self,event):
-        self.vertices-=1
+    # clique direito
+def aumentarvertices(self, event, controladordesenho):
+        figura = controladordesenho.figura_atual
+        if figura is not None:
+            figura.lados += 1
+            # Recalcula as coordenadas com o novo número de lados
+            figura.pontos = figura._tratamento_pontos()
+            # Atualiza o desenho 
+            controladordesenho.desenhar_figuras()
+            controladordesenho.desenhar_figura_nova()
 
+def dimnuirvertices(self, event, controladordesenho):
+        figura = controladordesenho.figura_atual
+        if figura is not None and figura.lados > 3: # minha trava
+            figura.lados -= 1
+            # 
+            figura.pontos = figura._tratamento_pontos()
+            # Atualiza o desenho 
+            controladordesenho.desenhar_figuras()
+            controladordesenho.desenhar_figura_nova()
 
-    
-    def ao_mover(self, event, controladordesenho):
+def ao_mover(self, event, controladordesenho):
         pass
-    def finalizar_poligono(self, event, controladordesenho):
+def finalizar_poligono(self, event, controladordesenho):
         controladordesenho.figuras.append(controladordesenho.figura_atual)
             # limpar para o proximo desenho
         controladordesenho.figura_atual=None
         controladordesenho.desenhar_figuras()
         controladordesenho.desenhar_figura_nova()
     
-    def ao_soltar(self, event, controladordesenho):
+def ao_soltar(self, event, controladordesenho):
         pass

@@ -110,7 +110,7 @@ class controladordesenho:
 
             
 
-    #gerenciamento de cliques, deixando o nome mais genérico
+    #-------------------------------------------------------------CLIQUES---------------------------------------------------------------
     def vincular_eventos(self):
 
         #desenhar e selecionar
@@ -131,7 +131,11 @@ class controladordesenho:
         self.canvas.bind("<Left>", self.mover_tras)
         self.canvas.bind("<Up>", self.mover_topo)
         self.canvas.bind("<Down>", self.mover_fundo)
-                                                       
+        # do poligono regular
+
+        # do poligono regular
+        self.canvas.bind("<Button-3>", lambda event: self.estado_atual.aumentarvertices(event, self))
+        self.canvas.bind("<Button-2>", lambda event: self.estado_atual.dimnuirvertices(event, self))
 
 
     def ao_clicar(self, event):
