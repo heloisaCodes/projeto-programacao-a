@@ -12,12 +12,19 @@ class figura:
     def pertence(self,px,py):
         pass
         
-    def mover(self,dx,dy):
+    def mover(self, canvas, dx, dy):
+        # Mantenha o canvas como parâmetro se precisar atualizar o desenho na tela
         pass
     
     def destacar(self):
-        self._cor_traco_original=self.c_traco
-        self.c_traco="red"
+        if not hasattr(self, '_cor_traco_original'):
+            self._cor_traco_original = self.c_traco
+        self.c_traco = "red"
 
     def restaurar(self):
-        self.c_traco=self._cor_traco_original
+        if hasattr(self, '_cor_traco_original'):
+            self.c_traco = self._cor_traco_original
+            del self._cor_traco_original # Limpa para garantir que o próximo destaque salve a cor correta
+
+    def clonar(self):
+        return figura(self.c_traco, self.c_preenchimento)

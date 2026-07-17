@@ -32,6 +32,7 @@ class controladordesenho:
         self.canvas = canvas
         self.figura_atual = None  # vai comecar com none pq nao vai inicializar nehuma figura # gaveta temporaria 
         self.figuras = []     # figuras salvas
+        self.figuras_selecionadas = []
         # nossa gaveta que vai guardar a escolha do menu, la na visão
         self.escolha_menu=escolha_atual
         # gaveta das cores
@@ -137,16 +138,19 @@ class controladordesenho:
             self.estado_atual.ao_clicar(event,self) 
             self.desenhar_figuras()
             self.desenhar_figura_nova()
+
+            self.pontos = [event.x, event.y]
             
 
 
     
-    def ao_mover(self, event):  
-            self.estado_atual.ao_mover(event,self)
-            self.desenhar_figuras()
-            # movi essa trava pra aqui, ja que isso so vai ser uado no modo desenho
-            if self.figura_atual is not None:
-             self.desenhar_figura_nova()
+    def ao_mover(self, event):
+        if self.estado_atual:
+            self.estado_atual.ao_mover(event, self)
+        
+        self.desenhar_figuras()
+        if self.figura_atual is not None:
+            self.desenhar_figura_nova()
 
 
 
@@ -224,65 +228,43 @@ class controladordesenho:
 
     
     def copiar(self, event):
-    
-        if self.selecao_ativa and self.figura_selecionada:
-            #import de copy para copiar a ficha tecnica completa
-            #gaveta das figuras copiadas
-            self.area_transferencia = copy.deepcopy(self.figura_selecionada)
-            self.notificacoes("COPIADO COM SUCESSO")
+        # Verifica se a seleção está ativa e se há itens na lista
+        if self.selecao_ativa and self.figuras_selecionadas:
+            # Usa o método copiar da própria ferramenta (modoselecao)
+            # ou faz a cópia manual aqui:
+            self.area_transferencia = [copy.deepcopy(f) for f in self.figuras_selecionadas]
+            self.notificacoes(f"{len(self.area_transferencia)} figura(s) copiada(s)")
         else:
-            self.notificacoes("ERRO EM COPIAR")
+            self.notificacoes("ERRO EM COPIAR: Selecione algo primeiro")
 
 
 
     def colar(self, event):
-
-        if self.area_transferencia:
-        
-            nova_figura = copy.deepcopy(self.area_transferencia)
+        if hasattr(self, 'area_transferencia') and self.area_transferencia:
+            for figura in self.area_transferencia:
+                # Cria a cópia da figura
+                nova_figura = copy.deepcopy(figura)
+                
+                # Move a nova figura um pouco para o lado para não ficar em cima da original
+                nova_figura.mover(self.canvas, 20, 20) 
+                
+                # Adiciona à lista de figuras desenhadas
+                self.figuras.append(nova_figura)
             
-            mouse_x = event.x
-            mouse_y = event.y
-
-            lista_x = [nova_figura.pontos[i] for i in range(len(nova_figura.pontos)) if i % 2 == 0]
-            lista_y = [nova_figura.pontos[i] for i in range(len(nova_figura.pontos)) if i % 2 != 0]
-
-            #calculo separado para o circulo
-            if nova_figura.__class__.__name__ == 'circulo':
-                centro_original_x = nova_figura.pontos[0]
-                centro_original_y = nova_figura.pontos[1]
-
-            #calculo normal da media central para as outras figuras
-            else:                           
-                centro_original_x = sum(lista_x) / len(lista_x)
-                centro_original_y = sum(lista_y) / len(lista_y)
-
-            #distancia final da original para nova
-            dx = mouse_x - centro_original_x
-            dy = mouse_y - centro_original_y
-            nova_figura.mover(self.canvas, dx, dy)  
-
-            #para deixar selecionada             
-            if self.selecao_ativa:
-                if self.figura_selecionada:
-                    self.figura_selecionada.restaurar()
-                self.figura_selecionada = nova_figura
-
-            #atualizacao da figura
-            self.figuras.append(nova_figura)
             self.desenhar_figuras()
             self.notificacoes("COLADO COM SUCESSO")
-            
         else:
-            self.notificacoes("ERRO EM COLAR")
+            self.notificacoes("NADA PARA COLAR")
 
             
     #novas funcionalidades
     #excluir e mover figura
     def excluir_figura(self, event):
-        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
-            self.figuras.remove(self.figura_selecionada)
-            self.figura_selecionada = None 
+        if self.selecao_ativa and self.figuras_selecionadas:
+            for figura in self.figuras_selecionadas:
+                if figura in self.figuras:
+                    self.figuras.remove(figura)
+            self.figuras_selecionadas = [] # Limpa a lista após excluir
             self.desenhar_figuras()
             self.notificacoes("FIGURA EXCLUÍDA", cor="red")
 

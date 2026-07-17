@@ -1,52 +1,74 @@
 from .ferramentas import ferramenta
 
 class modoselecao(ferramenta):
+    def __init__(self):
+        self.pontos = [0, 0]
+        self.retangulo_temp = None # Para desenhar o retângulo de seleção
 
     def ao_clicar(self, event, controladordesenho):
-        
-        # Identifica em qual figura o usuário clicou neste momento
-        figura_clicada=None
-        controladordesenho.figura_clicada = None
+        # 1. Identifica se clicou em uma figura
+        figura_clicada = None
         for f in reversed(controladordesenho.figuras):
             if hasattr(f, 'pertence') and f.pertence(event.x, event.y):
                 figura_clicada = f
-                break # Encontrou a figura que está por cima, pode parar a busca
+                break
 
-        # coordenada do clique atual 
-        self.pontos = [event.x, event.y]
-        
-        # Se a figura ja estaa selecionada desmarca
-        if figura_clicada and controladordesenho.figura_selecionada == figura_clicada:
-            if hasattr(controladordesenho.figura_selecionada, 'restaurar'):
-                controladordesenho.figura_selecionada.restaurar()
-            controladordesenho.figura_selecionada = None
-            return # Para aqui, o clique não passa para a seleção novamente
+        # 2. Verifica CTRL (ajuste o 4 se necessário após testar)
+        ctrl_pressionado = (event.state & 0x0004) != 0
 
-        #  Limpa a seleção antiga antes
-        if controladordesenho.figura_selecionada:
-            if hasattr(controladordesenho.figura_selecionada, 'restaurar'):
-                controladordesenho.figura_selecionada.restaurar()
-            controladordesenho.figura_selecionada = None
-
-        #  Se o clique foi em cima de uma figura nova 
-        if figura_clicada:
-            controladordesenho.figura_selecionada = figura_clicada
-            if hasattr(figura_clicada, 'destacar'):
+        # 3. Lógica de Seleção
+        if not ctrl_pressionado:
+            # Seleção Simples: Limpa tudo e seleciona apenas a clicada
+            for f in controladordesenho.figuras_selecionadas:
+                f.restaurar()
+            controladordesenho.figuras_selecionadas = []
+            
+            if figura_clicada:
                 figura_clicada.destacar()
+                controladordesenho.figuras_selecionadas.append(figura_clicada)
+        else:
+            # Seleção Múltipla (com CTRL):
+            if figura_clicada:
+                if figura_clicada in controladordesenho.figuras_selecionadas:
+                    figura_clicada.restaurar()
+                    controladordesenho.figuras_selecionadas.remove(figura_clicada)
+                else:
+                    figura_clicada.destacar()
+                    controladordesenho.figuras_selecionadas.append(figura_clicada)
+
+        self.pontos = [event.x, event.y]
 
     def ao_mover(self, event, controladordesenho):
-        if controladordesenho.figura_selecionada:
-            dx = event.x - self.pontos[0]
-            dy = event.y - self.pontos[1]
-            
-            # Verifica se a figura sabe se mover
-            if hasattr(controladordesenho.figura_selecionada, 'mover'):
-                controladordesenho.figura_selecionada.mover(controladordesenho.canvas, dx, dy)
-            
-            self.pontos = [event.x, event.y]
+        # Calcula a diferença do movimento do mouse
+        dx = event.x - self.pontos[0]
+        dy = event.y - self.pontos[1]
+        
+        # O movimento acontece se houver algo selecionado, 
+        # independentemente de teclas pressionadas
+        if controladordesenho.figuras_selecionadas:
+            for figura in controladordesenho.figuras_selecionadas:
+                if hasattr(figura, 'mover'):
+                    figura.mover(controladordesenho.canvas, dx, dy)
+        
+        # Atualiza o ponto de referência para o próximo cálculo
+        self.pontos = [event.x, event.y]
      
     def ao_soltar(self, event, controladordesenho):
+        # Aqui você implementaria a lógica final do Retângulo:
+        # 1. Definir área do retângulo (x_inicial, y_inicial) até (event.x, event.y)
+        # 2. Percorrer controladordesenho.figuras
+        # 3. Se figura estiver dentro, adicionar a controladordesenho.figuras_selecionadas
         pass
-        
+
+    def copiar(self, controladordesenho):
+        self.copia_buffer = [f.clonar() for f in controladordesenho.figuras_selecionadas if hasattr(f, 'clonar')]
+
+    def colar(self, controladordesenho):
+        if hasattr(self, 'copia_buffer'):
+            for f in self.copia_buffer:
+                controladordesenho.figuras.append(f)
+                f.desenhar(controladordesenho.canvas)
+    
     def finalizar_poligono(self, event, controladordesenho):
+        # Como seleção não lida com polígonos, pode deixar vazio
         pass
