@@ -97,7 +97,8 @@ class controladordesenho:
                 "Linha": modolinha,
                 "Círculo": modocirculo,
                 "Retângulo": modoretangulo,
-                "Borracha": Modoborracha
+                "Borracha": Modoborracha,
+                "Poligono Regular":modopoligonoregular
             }
 
             self.estado_atual = None  # Esvazia a gaveta
