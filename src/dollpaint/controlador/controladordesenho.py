@@ -353,19 +353,18 @@ class controladordesenho:
             
             self.desenhar_figuras() 
 
-    def undo(self):
+    def undo(self,event=None):
         if self.lista_undo:
             #copy copia todas as info necessarias
             #salvando a lista que é apagada em desenhar_figuras
+            self.figura_selecionada = None
             self.lista_redo.append(copy.deepcopy(self.figuras))
-            if self.figura_selecionada:
-                self.figura_selecionada = None
             #pega o ultimo estado da lista
             self.figuras = self.lista_undo.pop()
 
             self.desenhar_figuras()
 
-    def redo(self):
+    def redo(self,event=None):
         if self.lista_redo:
             self.lista_undo.append(copy.deepcopy(self.figuras))
             self.figuras = self.lista_redo.pop()
