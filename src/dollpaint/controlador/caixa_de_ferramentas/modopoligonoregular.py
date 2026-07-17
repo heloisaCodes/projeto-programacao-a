@@ -16,7 +16,7 @@ class modopoligonoregular(ferramenta):
         controladordesenho.desenhar_figura_nova()
 
     # clique direito
-def aumentarvertices(self, event, controladordesenho):
+    def aumentarvertices(self, event, controladordesenho):
         figura = controladordesenho.figura_atual
         if figura is not None:
             figura.lados += 1
@@ -25,8 +25,8 @@ def aumentarvertices(self, event, controladordesenho):
             # Atualiza o desenho 
             controladordesenho.desenhar_figuras()
             controladordesenho.desenhar_figura_nova()
-
-def dimnuirvertices(self, event, controladordesenho):
+    # clique esquerdo
+    def dimnuirvertices(self, event, controladordesenho):
         figura = controladordesenho.figura_atual
         if figura is not None and figura.lados > 3: # minha trava
             figura.lados -= 1
@@ -36,14 +36,17 @@ def dimnuirvertices(self, event, controladordesenho):
             controladordesenho.desenhar_figuras()
             controladordesenho.desenhar_figura_nova()
 
-def ao_mover(self, event, controladordesenho):
+    # ao mover o mouse diferente 
+    def ao_mover(self, event, controladordesenho):
         pass
-def finalizar_poligono(self, event, controladordesenho):
+    
+    # assim como o poligono essa nao é usada
+    def ao_soltar(self, event, controladordesenho):
+        pass
+
+    def finalizar_poligono(self, event, controladordesenho):
         controladordesenho.figuras.append(controladordesenho.figura_atual)
             # limpar para o proximo desenho
         controladordesenho.figura_atual=None
         controladordesenho.desenhar_figuras()
         controladordesenho.desenhar_figura_nova()
-    
-def ao_soltar(self, event, controladordesenho):
-        pass

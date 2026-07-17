@@ -52,3 +52,28 @@ class poligonoregular(poligono):
         
         # to puxando da classe mae , a funçao desenhar
         super().desenhar(canvas, **kwargs)
+
+    # lembrar que o px é dado no modo
+    def pertence(self,px,py):
+        dp=(self.x_centro - px,self.y_centro- py)
+        # centro do poligono - o raio
+        dr=(self.x_centro - self.raio,self.y_centro - self. raio)
+        return dp <=dr
+
+    def mover(self,canvas,dx,dy):
+        self._tratamento_pontos(dx,dy)
+        canvas.delete("all")  # Limpa o canvas
+        self.desenhar(canvas)
+     
+    def destacar(self):
+        if not hasattr(self, '_cor_traco_original'):
+            self._cor_traco_original = self.c_traco
+        self.c_traco = "red"
+
+    def restaurar(self):
+        if hasattr(self, '_cor_traco_original'):
+            self.c_traco = self._cor_traco_original
+            del self._cor_traco_original # Limpa para garantir que o próximo destaque salve a cor correta
+
+    def clonar(self):
+        return figura(self.c_traco, self.c_preenchimento)

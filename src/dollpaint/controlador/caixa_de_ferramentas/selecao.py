@@ -11,9 +11,10 @@ class modoselecao(ferramenta):
         for f in reversed(controladordesenho.figuras):
             if hasattr(f, 'pertence') and f.pertence(event.x, event.y):
                 figura_clicada = f
+                print("pertence")
                 break
 
-        # 2. Verifica CTRL (ajuste o 4 se necessário após testar)
+        # 2. Verifica CTRL
         ctrl_pressionado = (event.state & 0x0004) != 0
 
         # 3. Lógica de Seleção
@@ -54,10 +55,7 @@ class modoselecao(ferramenta):
         self.pontos = [event.x, event.y]
      
     def ao_soltar(self, event, controladordesenho):
-        # Aqui você implementaria a lógica final do Retângulo:
-        # 1. Definir área do retângulo (x_inicial, y_inicial) até (event.x, event.y)
-        # 2. Percorrer controladordesenho.figuras
-        # 3. Se figura estiver dentro, adicionar a controladordesenho.figuras_selecionadas
+
         pass
 
     def copiar(self, controladordesenho):

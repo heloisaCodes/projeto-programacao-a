@@ -134,10 +134,7 @@ class controladordesenho:
         # do poligono regular
 
         # do poligono regular
-        self.canvas.bind("<Button-3>", lambda event: self.estado_atual.aumentarvertices(event, self))
-        self.canvas.bind("<Button-2>", lambda event: self.estado_atual.dimnuirvertices(event, self))
-
-
+        
     def ao_clicar(self, event):
             self.canvas.focus_set() #prioridade em receber atalhos do teclado
             self.estado_atual.ao_clicar(event,self) 
