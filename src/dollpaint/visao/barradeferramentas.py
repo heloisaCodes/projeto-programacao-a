@@ -59,5 +59,13 @@ class BarraFerramentas(tk.Frame):
         # # botao abrir coluna 8 direita
         self.btn_abrir = ttk.Button(self, text="Abrir")
         self.btn_abrir.grid(column=8, row=0, sticky=tk.E, **paddings)
+
+        #botoes do redo e undo
+        self.undo_redo_frame = tk.Frame(self)
+        self.undo_redo_frame.grid(column=6, row=0, sticky=tk.W, **paddings)
         
+        self.btn_undo = tk.Button(self,text="↶",font=("Arial", 14))
+        self.btn_undo.grid(column=6, row=1,sticky=tk.W,**paddings)
+        self.btn_redo = tk.Button(self,text="↷", font=("Arial", 12))
+        self.btn_redo.grid(column=5, row=1, sticky=tk.W, **paddings)
         

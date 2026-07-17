@@ -51,6 +51,9 @@ class controladordesenho:
         self.selecao_ativa=False
 
         self.var_selecao = tk.BooleanVar(value=False)
+        
+        self.lista_undo = []
+        self.lista_redo = []
 
 
 
@@ -129,11 +132,19 @@ class controladordesenho:
         self.canvas.bind("<Left>", self.mover_tras)
         self.canvas.bind("<Up>", self.mover_topo)
         self.canvas.bind("<Down>", self.mover_fundo)
-                                                       
+
+        #refazer e desfazer
+        self.canvas.bind("<Control-y>",self.redo)
+        self.canvas.bind("<Control-Y>",self.redo)
+        self.canvas.bind("<Control-z>",self.undo)
+        self.canvas.bind("<Control-Z>",self.undo)
+                                                      
 
 
     def ao_clicar(self, event):
             self.canvas.focus_set() #prioridade em receber atalhos do teclado
+            self.lista_undo.append(copy.deepcopy(self.figuras))
+            self.lista_redo.clear()
             self.estado_atual.ao_clicar(event,self) 
             self.desenhar_figuras()
             self.desenhar_figura_nova()
@@ -150,8 +161,10 @@ class controladordesenho:
 
 
 
-             
-    def ao_soltar(self, event): 
+    #adapando para undo e redo    
+    def ao_soltar(self, event):
+            self.lista_undo.append(copy.deepcopy(self.figuras))
+            self.lista_redo.clear()
             self.estado_atual.ao_soltar(event,self)
             self.desenhar_figuras()
             self.desenhar_figura_nova()
@@ -246,7 +259,7 @@ class controladordesenho:
 
             lista_x = [nova_figura.pontos[i] for i in range(len(nova_figura.pontos)) if i % 2 == 0]
             lista_y = [nova_figura.pontos[i] for i in range(len(nova_figura.pontos)) if i % 2 != 0]
-
+            
             #calculo separado para o circulo
             if nova_figura.__class__.__name__ == 'circulo':
                 centro_original_x = nova_figura.pontos[0]
@@ -322,7 +335,7 @@ class controladordesenho:
     #substitutas de selecionar
     def mudar_preenchimento(self, cor):
         self.cor_preenchimento = cor
-        
+        self.lista_undo.append(copy.deepcopy(self.figuras))
         if self.figura_selecionada:
             self.figura_selecionada.c_preenchimento = cor
             
@@ -331,10 +344,29 @@ class controladordesenho:
             
     def mudar_traco(self,cor):
         self.cor_traço = cor
+        self.lista_undo.append(copy.deepcopy(self.figuras))
         
         if self.figura_selecionada:
             #salva o traco original para nao entrar em conflito com o destacar
             self.figura_selecionada._cor_traco_original = cor
             self.figura_selecionada.c_traco = cor
             
-            self.desenhar_figuras()                              
+            self.desenhar_figuras() 
+
+    def undo(self):
+        if self.lista_undo:
+            #copy copia todas as info necessarias
+            #salvando a lista que é apagada em desenhar_figuras
+            self.lista_redo.append(copy.deepcopy(self.figuras))
+            if self.figura_selecionada:
+                self.figura_selecionada = None
+            #pega o ultimo estado da lista
+            self.figuras = self.lista_undo.pop()
+
+            self.desenhar_figuras()
+
+    def redo(self):
+        if self.lista_redo:
+            self.lista_undo.append(copy.deepcopy(self.figuras))
+            self.figuras = self.lista_redo.pop()
+            self.desenhar_figuras()                             
