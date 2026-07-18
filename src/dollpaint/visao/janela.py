@@ -42,6 +42,10 @@ class JanelaPrincipal(tk.Tk):
         self.barra.tracoButton.config(command=lambda: self.paleta.definir_modo("traco"))
         self.barra.preenchimentoButton.config(command=lambda: self.paleta.definir_modo("preenchimento"))
         
+        #undo e redo
+        self.barra.btn_undo.config(command=self.controlador.undo)
+        self.barra.btn_redo.config(command=self.controlador.redo)
+        
         # ativa os binds
         self.controlador.vincular_eventos()
         # gaveta dos botoes salvar e abrir
