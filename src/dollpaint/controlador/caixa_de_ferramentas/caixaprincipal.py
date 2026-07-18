@@ -8,3 +8,5 @@ from .modorabisco import *
 from .selecao import *
 from . modoborracha  import*
 from .modoarea_selecao import *
+from .modocomposto import *
+from .modopoligonoregular import *

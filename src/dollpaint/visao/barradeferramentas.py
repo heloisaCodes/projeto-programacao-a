@@ -24,7 +24,7 @@ class BarraFerramentas(tk.Frame):
         self.var_selecao = tk.BooleanVar(value=False)
         self.var_areasele = tk.BooleanVar(value=False)
         # menu
-        self.option_menu = ttk.OptionMenu (self, self.escolha_menu, 'Rabisco', 'Linha', 'Rabisco', 'Retângulo', 'Oval', 'Círculo', 'Polígono',"Borracha","Poligono Regular",
+        self.option_menu = ttk.OptionMenu (self, self.escolha_menu, 'Rabisco', 'Linha', 'Rabisco', 'Retângulo', 'Oval', 'Círculo', 'Polígono',"Borracha","Poligono Regular","Figura Composta",
                                           command=lambda opcao: self.master.controlador.ao_mudar_selecao(opcao))
                     # o commad recebe opçao que foi passado pela escolha e aplicada no metodochamdo la no controlador
         self.option_menu.grid(column=1, row=0, sticky=tk.W, **paddings)
