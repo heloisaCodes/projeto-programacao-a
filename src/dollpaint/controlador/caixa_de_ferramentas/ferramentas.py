@@ -14,16 +14,17 @@ from abc import ABC , abstractmethod
 class ferramenta(ABC):
 
     @abstractmethod
-
     def ao_clicar(self, event,controladordesenho): 
         pass
+        
     @ abstractmethod
-
     def ao_mover(self, event,controladordesenho):
         pass
+        
     @abstractmethod
     def ao_soltar(self,event,controladordesenho):
         pass
+        
     @abstractmethod
     def finalizar_poligono(self,event,controladordesenho):
         pass

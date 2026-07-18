@@ -50,8 +50,10 @@ class controladordesenho:
         self.figura_selecionada = None # nao tem figura selecionada
         self.figura_ante=None
         self.selecao_ativa=False
-
         self.var_selecao = tk.BooleanVar(value=False)
+
+        self.areasele_ativa = False
+        self.var_areasele = tk.BooleanVar(value=False)
         
         self.lista_undo = []
         self.lista_redo = []
@@ -75,9 +77,16 @@ class controladordesenho:
              self.var_selecao.set(False)
             self.desenhar_figuras()
             self.estado_atual=self.estado_anterior
-           
 
-    
+
+    #mesma logica de selecao 
+    def area_selecao(self):
+        self.areasele_ativa  = not self.areasele_ativa
+
+        if self.areasele_ativa:
+            self.estado_anterior = self.estado_atual
+            self.estado_atual= area_selecao()
+           
       
     # parte da logistica da mudança
     # pegando o que o que o menu enviou
@@ -279,26 +288,30 @@ class controladordesenho:
             self.figuras_selecionadas = [] # Limpa a lista após excluir
             self.desenhar_figuras()
             self.notificacoes("FIGURA EXCLUÍDA", cor="red")
-    #esta ok
+
+    
     def mover_topo(self, event):
         if self.selecao_ativa and self.figuras_selecionadas:
-        #filtra as selecionadas de figuras e cria uma lista intermediaria
+        #separa as selecionadas das nao selecionadas para alterar a ordem de uma vez
             nao_selecionadas = [f for f in self.figuras if f not in self.figuras_selecionadas]
             selecionadas = [f for f in self.figuras if f in self.figuras_selecionadas]
             # Joga para o fim (desenha por último/topo)
             self.figuras = nao_selecionadas + selecionadas
             self.desenhar_figuras()
             self.notificacoes("MOVIDO PARA O TOPO", cor="blue")
-    #esta ok
+
+    
     def mover_fundo(self, event):
         if self.selecao_ativa and self.figuras_selecionadas:
+        #mesmo processo de separacao
             selecionadas = [f for f in self.figuras if f in self.figuras_selecionadas]
             nao_selecionadas = [f for f in self.figuras if f not in self.figuras_selecionadas]
-            self.figuras = selecionadas + nao_selecionadas # Joga para o início (desenha primeiro/fundo)
+            #aqui muda a ordem anterior
+            self.figuras = selecionadas + nao_selecionadas #Joga para o início (desenha primeiro/fundo)
             self.desenhar_figuras()
             self.notificacoes("MOVIDO PARA O FUNDO", cor="blue")
 
-    #esta ok
+    
     def mover_frente(self, event):
         if self.selecao_ativa and self.figuras_selecionadas:
             for i in range(len(self.figuras) - 2, -1, -1):
