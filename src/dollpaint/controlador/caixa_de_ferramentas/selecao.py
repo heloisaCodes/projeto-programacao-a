@@ -50,7 +50,7 @@ class modoselecao(ferramenta):
             for figura in controladordesenho.figuras_selecionadas:
                 if hasattr(figura, 'mover'):
                     figura.mover(controladordesenho.canvas, dx, dy)
-        
+            controladordesenho.desenhar_figuras()
         # Atualiza o ponto de referência para o próximo cálculo
         self.pontos = [event.x, event.y]
      
