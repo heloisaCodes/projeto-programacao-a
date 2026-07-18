@@ -6,7 +6,7 @@ class retangulo(figura):
         self.pontos = pontos
 
     def desenhar(self, canvas, dash=None):
-        canvas.create_rectangle(self.pontos[0],
+        return canvas.create_rectangle(self.pontos[0],
                                 self.pontos[1],
                                 self.pontos[2],
                                 self.pontos[3],

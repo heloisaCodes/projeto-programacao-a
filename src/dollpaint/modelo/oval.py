@@ -6,7 +6,7 @@ class oval(figura):
         self.pontos = pontos  
 
     def desenhar(self, canvas, dash=None):
-        canvas.create_oval(
+        return canvas.create_oval(
             self.pontos[0], self.pontos[1], 
             self.pontos[2], self.pontos[3], 
             outline=self.c_traco, fill=self.c_preenchimento, dash=dash

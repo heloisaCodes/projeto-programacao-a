@@ -32,7 +32,8 @@ class controladordesenho:
         self.canvas = canvas
         self.figura_atual = None  # vai comecar com none pq nao vai inicializar nehuma figura # gaveta temporaria 
         self.figuras = []     # figuras salvas
-        self.figuras_selecionadas = []
+        self.figuras_selecionadas = [] #figuras selecionadas
+        self.figuras_ids = {} #ids das figuras salvas
         # nossa gaveta que vai guardar a escolha do menu, la na visão
         self.escolha_menu=escolha_atual
         # gaveta das cores
@@ -52,6 +53,7 @@ class controladordesenho:
         self.selecao_ativa=False
         self.var_selecao = tk.BooleanVar(value=False)
 
+        #add mesma logica de selecao
         self.areasele_ativa = False
         self.var_areasele = tk.BooleanVar(value=False)
         
@@ -86,6 +88,12 @@ class controladordesenho:
         if self.areasele_ativa:
             self.estado_anterior = self.estado_atual
             self.estado_atual= area_selecao()
+        else:
+            if self.figura_selecionada:
+                self.var_areasele.set(False) 
+                #nao precisa restaurar, ja vai deixar ativa pra selecao
+        
+            self.estado_atual=self.estado_anterior
            
       
     # parte da logistica da mudança
@@ -99,7 +107,11 @@ class controladordesenho:
         self.selecao_ativa = False
         # Força o botão de seleção a se desmarcar visualmente na tela
         self.var_selecao.set(False)
-        if not self.selecao_ativa : 
+
+        self.areasele_ativa = False
+        self.var_areasele.set(False)
+        
+        if not self.selecao_ativa and not self.areasele_ativa : 
             texto = self.escolha_menu.get()
         
             tradutor_ferramentas = {
@@ -155,23 +167,21 @@ class controladordesenho:
             self.canvas.focus_set() #prioridade em receber atalhos do teclado
             self.lista_undo.append(copy.deepcopy(self.figuras))
             self.lista_redo.clear()
-            self.estado_atual.ao_clicar(event,self) 
+            self.estado_atual.ao_clicar(event,self)
+             
             self.desenhar_figuras()
             self.desenhar_figura_nova()
-
             self.pontos = [event.x, event.y]
             
 
-
-    
     def ao_mover(self, event):
         if self.estado_atual:
             self.estado_atual.ao_mover(event, self)
         
-        self.desenhar_figuras()
+        #desenha em baixo pra nao apagar o retangulo
         if self.figura_atual is not None:
+            self.desenhar_figuras()
             self.desenhar_figura_nova()
-
 
 
     #adapando para undo e redo    
@@ -179,8 +189,10 @@ class controladordesenho:
             self.lista_undo.append(copy.deepcopy(self.figuras))
             self.lista_redo.clear()
             self.estado_atual.ao_soltar(event,self)
+            
             self.desenhar_figuras()
-            self.desenhar_figura_nova()
+            if self.figura_atual is not None:
+                self.desenhar_figura_nova()
 
 
         
@@ -194,10 +206,16 @@ class controladordesenho:
 
 
     def desenhar_figuras(self):
-        # Limpa o canvas e redesenha as figuras salvas
+        # Limpa o canvas
         self.canvas.delete("all")
+        #Limpa o dicionario
+        self.figuras_ids.clear()
+
+        #cada desenhar atualiza o id
+        #salva o id a cada desenhar
         for fig in self.figuras:
-            fig.desenhar(self.canvas)
+           fig_id = fig.desenhar(self.canvas)
+           self.figuras_ids[fig_id] = fig
             
 
 

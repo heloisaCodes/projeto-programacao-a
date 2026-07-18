@@ -11,7 +11,7 @@ class circulo(figura):
         y_centro = self.pontos[1]
         raio = self.pontos[2]
         
-        canvas.create_oval(
+        return canvas.create_oval(
             x_centro - raio,
             y_centro - raio,
             x_centro + raio,
