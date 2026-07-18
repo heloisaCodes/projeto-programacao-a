@@ -279,58 +279,64 @@ class controladordesenho:
             self.figuras_selecionadas = [] # Limpa a lista após excluir
             self.desenhar_figuras()
             self.notificacoes("FIGURA EXCLUÍDA", cor="red")
-
+    #esta ok
     def mover_topo(self, event):
-        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
-            self.figuras.remove(self.figura_selecionada)
-            self.figuras.append(self.figura_selecionada) # Joga para o fim (desenha por último/topo)
+        if self.selecao_ativa and self.figuras_selecionadas:
+        #filtra as selecionadas de figuras e cria uma lista intermediaria
+            nao_selecionadas = [f for f in self.figuras if f not in self.figuras_selecionadas]
+            selecionadas = [f for f in self.figuras if f in self.figuras_selecionadas]
+            # Joga para o fim (desenha por último/topo)
+            self.figuras = nao_selecionadas + selecionadas
             self.desenhar_figuras()
             self.notificacoes("MOVIDO PARA O TOPO", cor="blue")
-
+    #esta ok
     def mover_fundo(self, event):
-        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
-            self.figuras.remove(self.figura_selecionada)
-            self.figuras.insert(0, self.figura_selecionada) # Joga para o início (desenha primeiro/fundo)
+        if self.selecao_ativa and self.figuras_selecionadas:
+            selecionadas = [f for f in self.figuras if f in self.figuras_selecionadas]
+            nao_selecionadas = [f for f in self.figuras if f not in self.figuras_selecionadas]
+            self.figuras = selecionadas + nao_selecionadas # Joga para o início (desenha primeiro/fundo)
             self.desenhar_figuras()
             self.notificacoes("MOVIDO PARA O FUNDO", cor="blue")
 
+    #esta ok
     def mover_frente(self, event):
-        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
-            idx = self.figuras.index(self.figura_selecionada)
-            if idx < len(self.figuras) - 1: # Verifica se já não é a última
+        if self.selecao_ativa and self.figuras_selecionadas:
+            for i in range(len(self.figuras) - 2, -1, -1):
+                if self.figuras[i] in self.figuras_selecionadas and self.figuras[i+1] not in self.figuras_selecionadas:
                 # Troca de posição com a da frente
-                self.figuras[idx], self.figuras[idx+1] = self.figuras[idx+1], self.figuras[idx]
-                self.desenhar_figuras()
-                self.notificacoes("MOVIDO PARA FRENTE", cor="green")
+                    self.figuras[i], self.figuras[i+1] = self.figuras[i+1], self.figuras[i]
+            self.desenhar_figuras()
+            self.notificacoes("MOVIDO PARA FRENTE", cor="green")
 
     def mover_tras(self, event):
-        if self.selecao_ativa and self.figura_selecionada and (self.figura_selecionada in self.figuras):
-            idx = self.figuras.index(self.figura_selecionada)
-            if idx > 0: # Verifica se já não é a primeira
-                # Troca de posição com a de trás
-                self.figuras[idx], self.figuras[idx-1] = self.figuras[idx-1], self.figuras[idx]
-                self.desenhar_figuras()
-                self.notificacoes("MOVIDO PARA TRÁS", cor="green")
+        if self.selecao_ativa and self.figuras_selecionadas:
+            for i in range(1,len(self.figuras)):
+                if self.figuras[i] in self.figuras_selecionadas and self.figuras[i-1] not in self.figuras_selecionadas:
+                    self.figuras[i], self.figuras[i-1] = self.figuras[i-1], self.figuras[i]
+            self.desenhar_figuras()
+            self.notificacoes("MOVIDO PARA TRÁS", cor="green")
 
 
     #substitutas de selecionar
     def mudar_preenchimento(self, cor):
         self.cor_preenchimento = cor
         self.lista_undo.append(copy.deepcopy(self.figuras))
-        if self.figura_selecionada:
-            self.figura_selecionada.c_preenchimento = cor
+        if self.figuras_selecionadas:
+            for f in self.figuras_selecionadas:
+                f.c_preenchimento = cor
             
-            self.desenhar_figuras() # Limpa o canvas e redesenha com as novas cores
+        self.desenhar_figuras() # Limpa o canvas e redesenha com as novas cores
 
             
     def mudar_traco(self,cor):
         self.cor_traço = cor
         self.lista_undo.append(copy.deepcopy(self.figuras))
         
-        if self.figura_selecionada:
+        if self.figuras_selecionadas:
+            for f in self.figuras_selecionadas:
             #salva o traco original para nao entrar em conflito com o destacar
-            self.figura_selecionada._cor_traco_original = cor
-            self.figura_selecionada.c_traco = cor
+                f._cor_traco_original = cor
+                f.c_traco = cor
             
             self.desenhar_figuras() 
 

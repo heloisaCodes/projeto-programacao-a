@@ -3,7 +3,9 @@ from .ferramentas import ferramenta
 class modoselecao(ferramenta):
     def __init__(self):
         self.pontos = [0, 0]
-        self.retangulo_temp = None # Para desenhar o retângulo de seleção
+        #retangulo temporario de selecao
+        self.rettemp = None 
+        self.cntrl_pressionado = None
 
     def ao_clicar(self, event, controladordesenho):
         # 1. Identifica se clicou em uma figura
@@ -12,12 +14,22 @@ class modoselecao(ferramenta):
             if hasattr(f, 'pertence') and f.pertence(event.x, event.y):
                 figura_clicada = f
                 break
-
-        # 2. Verifica CTRL (ajuste o 4 se necessário após testar)
-        ctrl_pressionado = (event.state & 0x0004) != 0
+                
+        #garantindo que o clique comeca  no canvas     
+        if figura_clicada is None:
+            #salvando os pontos estaticos
+            self.x_inicial = event.x 
+            self.y_inicial = event.y
+            #desenhando um retangulo parecido com o da figura, mas tracejado
+            self.rettemp = controladordesenho.canvas.create_rectangle(self.x_inicial,self.y_inicial,
+            event.x,event.y,dash=(2, 2), outline="blue")
+            
+        
+        # 2. Verifica CTRL
+        self.ctrl_pressionado = (event.state & 0x0004) != 0
 
         # 3. Lógica de Seleção
-        if not ctrl_pressionado:
+        if not self.ctrl_pressionado:
             # Seleção Simples: Limpa tudo e seleciona apenas a clicada
             for f in controladordesenho.figuras_selecionadas:
                 f.restaurar()
@@ -39,6 +51,14 @@ class modoselecao(ferramenta):
         self.pontos = [event.x, event.y]
 
     def ao_mover(self, event, controladordesenho):
+        #primeiro verifica se tem o rettemp
+        if self.rettemp:
+            #entrega as coordenadas para o rettemp ser atualizado
+            #mantem as estaticas e atualiza a nova
+            controladordesenho.canvas.coords(self.rettemp, self.x_inicial, self.y_inicial, event.x, event.y)
+            self.pontos = [event.x, event.y]
+            return #ou break, para nao rodar o restante
+            
         # Calcula a diferença do movimento do mouse
         dx = event.x - self.pontos[0]
         dy = event.y - self.pontos[1]
@@ -51,14 +71,21 @@ class modoselecao(ferramenta):
                     figura.mover(controladordesenho.canvas, dx, dy)
         
         # Atualiza o ponto de referência para o próximo cálculo
-        self.pontos = [event.x, event.y]
      
     def ao_soltar(self, event, controladordesenho):
-        # Aqui você implementaria a lógica final do Retângulo:
-        # 1. Definir área do retângulo (x_inicial, y_inicial) até (event.x, event.y)
-        # 2. Percorrer controladordesenho.figuras
-        # 3. Se figura estiver dentro, adicionar a controladordesenho.figuras_selecionadas
-        pass
+        if self.rettemp:
+            #pergunta se o cntrl ta pressionado pra nao dar conflito
+            if not self.ctrl_pressionado:
+                controladordesenho.figuras_selecionadas = [] #esvazia selecoes antigas
+            for figura in controladordesenho.figuras:
+            #verifica todos os pontos  de alguma das figuras esta no retangulo
+                if self.x_inicial <= figura.x <= event.x and self.y_inicial <= figura.y <= event.y:
+                    figura.destacar()
+                    controladordesenho.figuras_selecionadas.append(figura) #add como selecionada se estiver dentro
+            controladordesenho.desenhar_figuras()
+            controladordesenho.canvas.delete(self.rettemp) #deleta o rettamp para ser recriado a partir daqui
+            self.rettemp = None 
+                
 
     def copiar(self, controladordesenho):
         self.copia_buffer = [f.clonar() for f in controladordesenho.figuras_selecionadas if hasattr(f, 'clonar')]
