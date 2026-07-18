@@ -13,13 +13,7 @@ class modoselecao(ferramenta):
         for f in reversed(controladordesenho.figuras):
             if hasattr(f, 'pertence') and f.pertence(event.x, event.y):
                 figura_clicada = f
-                print("pertence")
                 break
-<<<<<<< HEAD
-
-        # 2. Verifica CTRL
-        ctrl_pressionado = (event.state & 0x0004) != 0
-=======
                 
         #garantindo que o clique comeca  no canvas     
         if figura_clicada is None:
@@ -33,7 +27,6 @@ class modoselecao(ferramenta):
         
         # 2. Verifica CTRL
         self.ctrl_pressionado = (event.state & 0x0004) != 0
->>>>>>> cc44bc329b42a2f2145ed68a779ac6adaa81dc8c
 
         # 3. Lógica de Seleção
         if not self.ctrl_pressionado:
@@ -80,10 +73,6 @@ class modoselecao(ferramenta):
         # Atualiza o ponto de referência para o próximo cálculo
      
     def ao_soltar(self, event, controladordesenho):
-<<<<<<< HEAD
-
-        pass
-=======
         if self.rettemp:
             #pergunta se o cntrl ta pressionado pra nao dar conflito
             if not self.ctrl_pressionado:
@@ -97,7 +86,6 @@ class modoselecao(ferramenta):
             controladordesenho.canvas.delete(self.rettemp) #deleta o rettamp para ser recriado a partir daqui
             self.rettemp = None 
                 
->>>>>>> cc44bc329b42a2f2145ed68a779ac6adaa81dc8c
 
     def copiar(self, controladordesenho):
         self.copia_buffer = [f.clonar() for f in controladordesenho.figuras_selecionadas if hasattr(f, 'clonar')]
