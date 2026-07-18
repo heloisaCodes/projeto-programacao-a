@@ -61,7 +61,20 @@ class poligonoregular(poligono):
         return dp <=dr
 
     def mover(self,canvas,dx,dy):
-        self._tratamento_pontos(dx,dy)
+        # atualizei o centro
+        self.x_centro+=dx
+        self.y_centro+=dy
+
+        # atualizar os vertice
+        pontos_atuais=[]
+        for i in range(0,len(self.pontos),2):
+            #pegando cada
+         pontos_atuais.extend ( [ self.pontos[i]+dx,
+            self.pontos[i+1]+dy])
+        self.pontos=pontos_atuais
+
+
+
         canvas.delete("all")  # Limpa o canvas
         self.desenhar(canvas)
      
@@ -75,5 +88,4 @@ class poligonoregular(poligono):
             self.c_traco = self._cor_traco_original
             del self._cor_traco_original # Limpa para garantir que o próximo destaque salve a cor correta
 
-    def clonar(self):
-        return figura(self.c_traco, self.c_preenchimento)
+ 

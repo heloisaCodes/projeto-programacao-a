@@ -3,6 +3,7 @@ from modelo.poligono import poligono
 from .ferramentas import ferramenta
 
 
+
 class modopoligono(ferramenta):
 
     def ao_clicar(self, event, controladordesenho):

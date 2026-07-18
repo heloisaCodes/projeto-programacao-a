@@ -12,7 +12,7 @@ class modolinha (ferramenta):
        controladordesenho.figura_atual= linha([event.x, event.y, event.x, event.y], cor_traco, cor_preenchimento)
        controladordesenho.desenhar_figuras()
        controladordesenho.desenhar_figura_nova()
-         
+    # atualizar as figuras     
     def ao_mover(self, event, controladordesenho):
       if controladordesenho.figura_atual is not None:
         controladordesenho.figura_atual.pontos[2] = event.x

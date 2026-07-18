@@ -100,11 +100,13 @@ class controladordesenho:
                 "Linha": modolinha,
                 "Círculo": modocirculo,
                 "Retângulo": modoretangulo,
-                "Borracha": Modoborracha
+                "Borracha": Modoborracha,
+                "Poligono Regular": modopoligonoregular
             }
 
             self.estado_atual = None  # Esvazia a gaveta
             self.estado_atual = tradutor_ferramentas[texto]()
+            self.figura_atual=None
                 
             self.desenhar_figuras()
             self.desenhar_figura_nova()
@@ -119,7 +121,7 @@ class controladordesenho:
         self.canvas.bind("<Button-1>", self.ao_clicar) #iniciar
         self.canvas.bind("<B1-Motion>", self.ao_mover) #atualizar
         self.canvas.bind("<ButtonRelease-1>", self.ao_soltar) #incluir
-        self.canvas.bind("<Double-Button-1>", self.finalizar_poligono)
+       #
 
         #copiar e colar
         self.canvas.bind("<Control-c>", self.copiar)
@@ -139,7 +141,8 @@ class controladordesenho:
         self.canvas.bind("<Control-Y>",self.redo)
         self.canvas.bind("<Control-z>",self.undo)
         self.canvas.bind("<Control-Z>",self.undo)
-                                                      
+        #  do poligono regular
+        
 
 
     def ao_clicar(self, event):
