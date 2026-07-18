@@ -8,7 +8,7 @@ class poligono(figura):
     def desenhar(self, canvas, **kwargs):
         if len(self.pontos) < 6:
          return
-        canvas.create_polygon(self.pontos, outline=self.c_traco, fill=self.c_preenchimento, **kwargs)
+        return canvas.create_polygon(self.pontos, outline=self.c_traco, fill=self.c_preenchimento, **kwargs)
 
     def pertence(self,px,py):
 

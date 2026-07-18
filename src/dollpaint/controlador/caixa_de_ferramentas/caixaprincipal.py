@@ -7,4 +7,4 @@ from .modocirculo import *
 from .modorabisco import *
 from .selecao import *
 from . modoborracha  import*
-from . modopoligonoregular import *
+from .modoarea_selecao import *

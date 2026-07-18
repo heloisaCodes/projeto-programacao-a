@@ -9,7 +9,7 @@ class rabisco(figura):
     def desenhar(self, canvas, dash=None):
         if len(self.pontos) < 4:
             return
-        canvas.create_line(self.pontos,
+        return canvas.create_line(self.pontos,
                            fill=self.c_traco,
                            dash=dash)
     def pertence(self,px,py):
