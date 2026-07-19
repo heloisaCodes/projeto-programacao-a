@@ -14,7 +14,7 @@ class modopoligonoregular(ferramenta):
         self.ultimo_clique = tempo_atual
 
         # se eu clicar duas vezes rapido e se tiver uma figura na gaveta eu faço isso
-        if controladordesenho.figura_atual is not None and diferenca_tempo < 0.5:
+        if controladordesenho.figura_atual is not None and diferenca_tempo < 0.6:
             self.finalizar_poligono(event, controladordesenho)
             return
 
