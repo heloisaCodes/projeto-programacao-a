@@ -6,10 +6,12 @@ class poligono(figura):
         self.pontos = pontos
 
     def desenhar(self, canvas, **kwargs):
-        if len(self.pontos) < 6:
-         return
-        return canvas.create_polygon(self.pontos, outline=self.c_traco, fill=self.c_preenchimento, **kwargs)
-
+     if len(self.pontos) < 6:
+        # ainda não tem 3 pontos -> mostra uma linha (prévia) em vez de nada
+        if len(self.pontos) >= 4:
+            canvas.create_line(self.pontos, **kwargs)
+        return
+     return canvas.create_polygon(self.pontos, outline=self.c_traco, fill=self.c_preenchimento, **kwargs)
     def pertence(self,px,py):
 
         if len(self.pontos) < 6:

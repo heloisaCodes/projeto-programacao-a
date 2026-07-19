@@ -25,8 +25,6 @@ class figura:
         if hasattr(self, '_cor_traco_original'):
             self.c_traco = self._cor_traco_original
             del self._cor_traco_original # Limpa para garantir que o próximo destaque salve a cor correta
-            
-
-
+          
     def clonar(self):
         return figura(self.c_traco, self.c_preenchimento)

@@ -83,18 +83,20 @@ class controladordesenho:
 
     #mesma logica de selecao 
     def area_selecao(self):
-        self.areasele_ativa  = not self.areasele_ativa
+        self.areasele_ativa = not self.areasele_ativa
 
         if self.areasele_ativa:
             self.estado_anterior = self.estado_atual
-            self.estado_atual= area_selecao()
+            self.estado_atual = area_selecao()
         else:
-            if self.figura_selecionada:
-                self.var_areasele.set(False) 
-                #nao precisa restaurar, ja vai deixar ativa pra selecao
-        
-            self.estado_atual=self.estado_anterior
-           
+            if self.figuras_selecionadas:
+                for f in self.figuras_selecionadas:
+                    f.restaurar()
+                self.figuras_selecionadas = []
+
+            self.var_areasele.set(False)
+            self.desenhar_figuras()
+            self.estado_atual = self.estado_anterior
       
     # parte da logistica da mudança
     # pegando o que o que o menu enviou
@@ -144,8 +146,9 @@ class controladordesenho:
         self.canvas.bind("<Button-1>", self.ao_clicar) #iniciar
         self.canvas.bind("<B1-Motion>", self.ao_mover) #atualizar
         self.canvas.bind("<ButtonRelease-1>", self.ao_soltar) #incluir
-       #
-
+    
+        self.canvas.bind("<Button-3>", self.ao_clicar)
+        
         #copiar e colar
         self.canvas.bind("<Control-c>", self.copiar)
         self.canvas.bind("<Control-C>",self.copiar)
@@ -164,7 +167,8 @@ class controladordesenho:
         self.canvas.bind("<Control-Y>",self.redo)
         self.canvas.bind("<Control-z>",self.undo)
         self.canvas.bind("<Control-Z>",self.undo)
-        #  do poligono regular
+        #  finalizar poligono
+        self.canvas.bind("<Double-Button-1>", self.finalizar_poligono)
         
 
 
@@ -355,26 +359,28 @@ class controladordesenho:
 
     #substitutas de selecionar
     def mudar_preenchimento(self, cor):
+        
         self.cor_preenchimento = cor
         self.lista_undo.append(copy.deepcopy(self.figuras))
         if self.figuras_selecionadas:
             for f in self.figuras_selecionadas:
-                f.c_preenchimento = cor
-            
-        self.desenhar_figuras() # Limpa o canvas e redesenha com as novas cores
+                if isinstance(f, figuracomposta):
+                    f.mudar_preenchimento(cor)
+                else:
+                    f.c_preenchimento = cor
+        self.desenhar_figuras()
 
-            
-    def mudar_traco(self,cor):
+    def mudar_traco(self, cor):
         self.cor_traço = cor
         self.lista_undo.append(copy.deepcopy(self.figuras))
-        
         if self.figuras_selecionadas:
             for f in self.figuras_selecionadas:
-            #salva o traco original para nao entrar em conflito com o destacar
-                f._cor_traco_original = cor
-                f.c_traco = cor
-            
-            self.desenhar_figuras() 
+                if isinstance(f, figuracomposta):
+                    f.mudar_traco(cor)
+                else:
+                    f._cor_traco_original = cor
+                    f.c_traco = cor
+        self.desenhar_figuras()
 
     def undo(self):
         if self.lista_undo:

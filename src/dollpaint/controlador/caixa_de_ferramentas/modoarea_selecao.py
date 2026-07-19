@@ -34,26 +34,28 @@ class area_selecao(ferramenta):
     def ao_soltar(self,event,controladordesenho):
         if self.rettemp:
             #salva as coords do retangulo
-            x1, y1, x2, y2 = controladordesenho.canvas.coords(self.rettemp)
-            #apaga ele visualmente
-            controladordesenho.canvas.delete(self.rettemp)
+            coords = controladordesenho.canvas.coords(self.rettemp)
+            if len(coords) == 4:                              
 
-            #verifica se a figura completa esta dentro da area salva
-            figuras_detectadas = controladordesenho.canvas.find_enclosed(x1, y1, x2, y2)
+                #apaga ele visualmente
+                controladordesenho.canvas.delete(self.rettemp)
 
-            if figuras_detectadas:
-                #se tiver figuras, ele pega o objeto atraves do id no dicionario
-                for fig_id in figuras_detectadas:
-                    fig_objeto = controladordesenho.figuras_ids.get(int(fig_id))
-                    if fig_objeto:
-                    #verifica se realmete foi encontrado, e se ele n esta na lista
-                        if fig_objeto not in controladordesenho.figuras_selecionadas:
-                            fig_objeto.destacar() #se nao estiver, destaca e add na lista
-                            controladordesenho.figuras_selecionadas.append(fig_objeto)
+                #verifica se a figura completa esta dentro da area salva
+                figuras_detectadas = controladordesenho.canvas.find_enclosed(coords[0], coords[1], coords[2], coords[3])
 
-                controladordesenho.area_selecao()#chama pra desativar
+                if figuras_detectadas:
+                    #se tiver figuras, ele pega o objeto atraves do id no dicionario
+                    for fig_id in figuras_detectadas:
+                        fig_objeto = controladordesenho.figuras_ids.get(int(fig_id))
+                        if fig_objeto:
+                        #verifica se realmete foi encontrado, e se ele n esta na lista
+                            if fig_objeto not in controladordesenho.figuras_selecionadas:
+                                fig_objeto.destacar() #se nao estiver, destaca e add na lista
+                                controladordesenho.figuras_selecionadas.append(fig_objeto)
+
+                
             self.rettemp = None #de certeza deixa sem rettemp nenhum
             
 
-    def finalizar_poligono(self):
+    def finalizar_poligono(self,event, controladordesenho):
         pass
