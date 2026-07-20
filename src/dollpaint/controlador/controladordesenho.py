@@ -74,9 +74,11 @@ class controladordesenho:
             self.estado_atual=modoselecao()
         else:
             if self.figura_selecionada:
-             self.figura_selecionada.restaurar()
+             for f in self.figuras_selecionadas:
+                f.restaurar()
+             self.figuras_selecionadas = []
              self.figura_selecionada=None
-             self.var_selecao.set(False)
+            self.var_selecao.set(False)
             self.desenhar_figuras()
             self.estado_atual=self.estado_anterior
 
@@ -89,14 +91,12 @@ class controladordesenho:
             self.estado_anterior = self.estado_atual
             self.estado_atual = area_selecao()
         else:
-            if self.figuras_selecionadas:
-                for f in self.figuras_selecionadas:
-                    f.restaurar()
-                self.figuras_selecionadas = []
-
             self.var_areasele.set(False)
             self.desenhar_figuras()
-            self.estado_atual = self.estado_anterior
+            
+            self.estado_atual = modoselecao()
+            self.var_selecao.set(True)
+            self.selecao_ativa = True
       
     # parte da logistica da mudança
     # pegando o que o que o menu enviou
